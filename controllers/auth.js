@@ -12,12 +12,12 @@ const registerUser = async (req, res, next) => {
     }
 
     // Check full name validity
-    if (!full_name.length > 2) {
+    if (full_name.length <= 2) {
         return res.status(400).json({ message: 'Invalid name! Make sure you enter a name with more than 2 caracters.' });
     }
     
     // Check email validity
-    if (!email.includes('@') || email.length < 6) {
+    if (!email.includes('@') || email.length <= 6) {
         return res.status(400).json({ message: 'Invalid email! Make sure you enter a valid email.' });
     }
 

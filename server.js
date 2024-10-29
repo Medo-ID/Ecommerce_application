@@ -46,7 +46,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
             sameSite: 'lax',
         },
@@ -60,23 +60,12 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Main route
-app.get('/', (req, res) => {
-    res.status(200).send(
-        `
-            <h1>Ecommerce Express REST API.</h1>
-            <h3>A REST API for managing ecommerce operations, including products, users, orders, and carts.</h3>
-            <h5>Docs are available at <a href="http://localhost:3000/api-docs">http://localhost:3000/api-docs</a></h5>
-        `
-    )
-});
-
-// The nested routes
-app.use('/', authRouter);
-app.use('/users', userRouter);
-app.use('/products', productRouter);
-app.use('/cart', isAuthenticated, cartRouter);
-app.use('/orders', isAuthenticated, orderRouter);
+// Setup api routes
+app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
+app.use('/api/cart', isAuthenticated, cartRouter);
+app.use('/api/orders', isAuthenticated, orderRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
