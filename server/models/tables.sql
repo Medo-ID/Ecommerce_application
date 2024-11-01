@@ -3,8 +3,8 @@ CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    hash_password VARCHAR(256) NOT NULL,
-    salt TEXT NOT NULL,
+    hash_password BYTEA,
+    salt BYTEA,
     phone_number VARCHAR(15),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

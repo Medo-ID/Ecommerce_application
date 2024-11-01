@@ -38,27 +38,22 @@ const registerUser = async (req, res, next) => {
 };
 
 // Login Middleware
-const loginUser = (req, res, next) => { 
-    passport.authenticate(
-        'local', 
-        { failureRedirect: '/login', failureFlash: true }, 
-        (err, user, info) => {
-            if (err) {
-                return res.status(500).json({ message: 'An error occurred during login.' });
-            }
-            
-            if (!user) {
-                return res.status(401).json({ message: info.message });
-            }
-            
-            req.logIn(user, (err) => {
-                if (err) {
-                    return res.status(500).json({ message: 'Login failed.' });
-                }
-                return res.status(200).json({ message: 'You logged in successfully', user });
-            });
+const loginUser = (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.status(500).json({ message: 'An error occurred during login.' });
         }
-    )(req, res, next);
+        if (!user) {
+            // Send the failure message when authentication fails
+            return res.status(401).json({ message: info.message });
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Login failed.' });
+            }
+            return res.status(200).json({ message: "You logged in successfully", user}); // Send the user object on success
+        });
+    })(req, res, next);
 };
 
 // Check Authentication Middelware

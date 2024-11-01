@@ -1,10 +1,10 @@
 import { body } from 'express-validator';
 
 export const inputValidation = [
-    // Full Name - Should be at least 3 characters
+    // Full Name - Should be at least 4 characters
     body('full_name')
-        .isLength({ min: 3 })
-        .withMessage('Full name must be at least 3 characters long'),
+        .isLength({ min: 4 })
+        .withMessage('Full name must be at least 4 characters long'),
 
     // Email - Must be a valid email format
     body('email')

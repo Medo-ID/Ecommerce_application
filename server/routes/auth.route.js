@@ -41,4 +41,4 @@ passport.use(new LocalStrategy(
 
 authRouter.post('/register', inputValidation, registerUser);
 authRouter.post('/login', loginUser);
-authRouter.post('/logout', logoutUser);
+authRouter.get('/logout', logoutUser);

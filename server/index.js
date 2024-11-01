@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import { Strategy as GitHubStrategy } from 'passport-github2';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pool } from "./models/index.js"
@@ -15,6 +16,10 @@ const PORT = process.env.PORT || 5000;
 // Routes
 import { authRouter } from './routes/auth.route.js';
 import { userRouter } from './routes/user.route.js';
+
+// Controllers
+import { isAuthenticated } from './controllers/auth.js';
+import { findUserByEmail, insertUser } from './controllers/user.js';
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
@@ -31,7 +36,7 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
             sameSite: 'lax',
         },
@@ -45,9 +50,45 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/', (req, res, next) => {
+    console.log(req.isAuthenticated());
+    res.status(200).json({ authStatus: req.isAuthenticated() });   
+});
+
+// GitHub Authentication 2.0 Strategy
+// Config GitHubStrategy
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT,
+    clientSecret: process.env.GITHUB_SECRET,
+    callbackURL: "http://localhost:3000/auth/github/callback"
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        // Check if user already exists
+        const email = profile.emails[0].value;
+        let user = await findUserByEmail(email);
+
+        if (!user) {
+            // Insert new GitHub user without password and salt
+            user = await insertUser(profile.displayName, email);
+        }
+        done(null, user);
+    } catch (error) {
+        done(error);
+    }
+}));
+
+// GitHub endpoints
+app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+app.get('/auth/github/callback', 
+    passport.authenticate('github', { failureRedirect: '/login' }),(req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+});
+
 // APIs endpoint
 app.use('/api/auth', authRouter);
-app.use('/api/users', userRouter);
+app.use('/api/users', isAuthenticated, userRouter);
 
 // Error handling
 app.use((err, req, res, next) => {

@@ -1,8 +1,6 @@
 import { pool } from "../models/index.js";
-import validator from 'express-validator';
+import { body } from 'express-validator';
 import { hashPassword, verifyPassword } from "../utils/hash.js";
-
-const { isLength, isEmail, matches } = validator;
 
 // Helper functions for users
 // Finding a user by email
@@ -26,12 +24,13 @@ const findUserById = async (id) => {
 };
 
 // Inserting
-const insertUser = async (full_name, email, hash_password, salt) => {
+const insertUser = async (full_name, email, hash_password = null, salt = null) => {
     try {
         // RETURNING * =  allows you to get the inserted row back immediately
         const query = `
             INSERT INTO users (full_name, email, hash_password, salt)
-            VALUES ($1, $2, $3, $4) 
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (email) DO NOTHING
         `
         await pool.query(query, [full_name, email, hash_password, salt])
         // return {message: 'User inserted successfully.'}
@@ -70,16 +69,16 @@ const updateUser = async (req, res) => {
     
     // Validate full_name
     if (full_name) {
-        if (isLength(full_name, { min: 3 })) {
+        if (body('full_name').isLength({ min: 4 })) {
             updateFields.full_name = full_name;
         } else {
-            return res.status(400).json({ error: 'Invalid name! Make sure you enter a name with more than 2 characters.' });
+            return res.status(400).json({ error: 'Invalid name! Make sure you enter a name with more than 4 characters.' });
         }
     }
 
     // Validate email
     if (email) {
-        if (isEmail(email)) {
+        if (body('email').isEmail()) {
             updateFields.email = email;
         } else {
             return res.status(400).json({ error: 'Invalid email! Make sure you enter a valid email.' });
@@ -94,11 +93,13 @@ const updateUser = async (req, res) => {
         }
         
         if (new_password === confirm_new_password) {
-            if (isLength(new_password, { min: 8 }) &&
-                matches(new_password, /[A-Z]/) &&
-                matches(new_password, /[a-z]/) &&
-                matches(new_password, /[0-9]/) &&
-                matches(new_password, /[@$!%*?&#]/)) {
+            if (
+                body('new_password').isLength({ min: 8 })
+                .matches(/[A-Z]/)
+                .matches(/[a-z]/)
+                .matches(/[0-9]/)
+                .matches(/[@$!%*?&#]/)
+            ) {
                 const { salt, hash } = await hashPassword(new_password);
                 updateFields.salt = salt;
                 updateFields.hash_password = hash;
@@ -112,7 +113,7 @@ const updateUser = async (req, res) => {
 
     // Validate phone number
     if (phone_number) {
-        if (matches(phone_number, /^\+?[1-9]\d{1,14}$/)) {
+        if (body('phone_number').matches(/^\+?[1-9]\d{1,14}$/)) {
             updateFields.phone_number = phone_number;
         } else {
             return res.status(400).json({ error: 'Invalid phone number.' });
