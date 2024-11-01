@@ -9,9 +9,9 @@ function App() {
         setTitles(data); // Set the fetched titles directly to the state
     };
 
-    useEffect(() => {
-        getData(); // Fetch data and set titles on component mount
-    }, []);
+    // useEffect(() => {
+    //     getData(); // Fetch data and set titles on component mount
+    // }, []);
 
     return (
         <div className='flex flex-col justify-between items-center gap-8'>

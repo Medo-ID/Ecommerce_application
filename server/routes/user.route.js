@@ -4,6 +4,5 @@ import { isAuthenticated } from '../controllers/auth.js';
 
 export const userRouter = express.Router();
 
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUser);
+userRouter.get('/', isAuthenticated, getUser);
 userRouter.put('/:id', isAuthenticated, updateUser);

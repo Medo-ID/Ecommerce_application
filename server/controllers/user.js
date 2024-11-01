@@ -33,14 +33,13 @@ const insertUser = async (full_name, email, hash_password = null, salt = null) =
             ON CONFLICT (email) DO NOTHING
         `
         await pool.query(query, [full_name, email, hash_password, salt])
-        // return {message: 'User inserted successfully.'}
     } catch (error) {
         return { message: 'Error inserting user.', error }
     }
 }
 
 // Requests
-// Retrieving all (Admin Privilege)
+// Retrieving all users (Admin Privilege)
 const getUsers = async (req, res) => {
     try {
         const { rows } = await pool.query('SELECT * FROM users ORDER BY created_at DESC')
@@ -50,18 +49,18 @@ const getUsers = async (req, res) => {
     }
 }
 
-// Retvieving one
+// Retvieving user's current informations
 const getUser = async (req, res) => {
-    const id = req.params.id
+    const id = req.user.id
     try {
         const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id])
         res.status(200).json({ data: rows[0] })
     } catch (error) {
-        res.status(404).json({ error: 'User not found with this Id', error })
+        res.status(404).json({ message: 'User not found with this Id', error })
     }
 }
 
-// Updating
+// Updating the user's current informations
 const updateUser = async (req, res) => {
     const { full_name, email, old_password, new_password, confirm_new_password, phone_number } = req.body
 
@@ -134,7 +133,7 @@ const updateUser = async (req, res) => {
         const { rows } = await pool.query(query, [...values, req.user.id])
         res.status(200).json({ data: rows[0] })
     } catch (error) {
-        res.status(500).json({ error: 'Something went wrong while updating user', error })
+        res.status(500).json({ massage: 'Something went wrong while updating user', error })
     }
 }
 

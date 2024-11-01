@@ -8,18 +8,20 @@ import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pool } from "./models/index.js"
 
-// Express Config
-dotenv.config();
-const app = express();
-const PORT = process.env.PORT || 5000;
+// Controllers
+import { isAuthenticated } from './controllers/auth.js';
+import { findUserByEmail, insertUser } from './controllers/user.js';
 
 // Routes
 import { authRouter } from './routes/auth.route.js';
 import { userRouter } from './routes/user.route.js';
+import { productRouter } from './routes/product.route.js';
+import { cartRouter } from './routes/cart.route.js';
 
-// Controllers
-import { isAuthenticated } from './controllers/auth.js';
-import { findUserByEmail, insertUser } from './controllers/user.js';
+// Express Config
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
@@ -50,6 +52,7 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Main route for testing purposes
 app.get('/', (req, res, next) => {
     console.log(req.isAuthenticated());
     res.status(200).json({ authStatus: req.isAuthenticated() });   
@@ -89,6 +92,8 @@ app.get('/auth/github/callback',
 // APIs endpoint
 app.use('/api/auth', authRouter);
 app.use('/api/users', isAuthenticated, userRouter);
+app.use('/api/products', productRouter);
+app.use('/api/cart', cartRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
