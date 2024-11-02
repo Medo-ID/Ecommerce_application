@@ -17,6 +17,7 @@ import { authRouter } from './routes/auth.route.js';
 import { userRouter } from './routes/user.route.js';
 import { productRouter } from './routes/product.route.js';
 import { cartRouter } from './routes/cart.route.js';
+import { orderRouter } from './routes/order.route.js';
 
 // Express Config
 dotenv.config();
@@ -46,7 +47,10 @@ app.use(
 );
 
 // Config app
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3001', // front-end origin
+    credentials: true // Allow cookies to be sent across domains
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
@@ -94,6 +98,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', isAuthenticated, userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/orders', orderRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
