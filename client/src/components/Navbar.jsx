@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, User } from "lucide-react";
+import { useAuth } from "../hooks/authContect";
 
 export const Navbar = () => {
     const { pathname } = useLocation();
+    const { isAuthenticated } = useAuth()
 
     const activeLink = "text-neutral-950 font-medium border-b border-mainOrange md:py-1 transition-color duration-200";
     const notActiveLink = "text-neutral-700 hover:text-neutral-950 md:py-1 transition-color duration-200";
@@ -27,12 +29,12 @@ export const Navbar = () => {
             </div>
             <div className="flex gap-12 items-center text-sm">
                 <ul className="flex space-x-4">
-                    <Link to="/account">
+                    {isAuthenticated && <Link to="/account">
                         <User
                             className={pathname === '/account' ? activeIcon : notActiveIcon}
                             size={34}
                         />
-                    </Link>
+                    </Link>}
                     <Link to="/cart">
                         <ShoppingCart
                             className={pathname === '/cart' ? activeIcon : notActiveIcon}
