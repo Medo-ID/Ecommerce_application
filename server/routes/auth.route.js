@@ -42,3 +42,11 @@ passport.use(new LocalStrategy(
 authRouter.post('/register', inputValidation, registerUser);
 authRouter.post('/login', loginUser);
 authRouter.get('/logout', logoutUser);
+
+authRouter.get('/status', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ isAuthenticated: true });
+    } else {
+        res.json({ isAuthenticated: false });
+    }
+});

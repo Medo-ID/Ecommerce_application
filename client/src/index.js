@@ -17,15 +17,30 @@ import SignUp from "./views/SignUp";
 import Account from "./views/Account";
 
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { AuthProvider } from "./hooks/authContect";
+import { RedirectUser } from "./components/RedirectUser";
+import { AuthProvider } from "./hooks/authContext";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="products" element={<Products />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
+            <Route 
+                path="login" 
+                element={
+                    <RedirectUser>
+                        <Login />
+                    </RedirectUser>
+                } 
+            />
+            <Route 
+                path="signup" 
+                element={
+                    <RedirectUser>
+                        <SignUp />
+                    </RedirectUser>
+                } 
+            />
             <Route 
                 path="account" 
                 element={

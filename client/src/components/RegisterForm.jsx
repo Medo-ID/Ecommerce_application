@@ -1,22 +1,37 @@
 import { useState } from "react";
+import { registerUser } from "../apis/auth";
+import { useNavigate } from "react-router-dom";
+import { Spinner } from "./Spinner";
 
 export const RegisterForm = () => {
+    const navigate = useNavigate();
     const [userObj, setUserObj] = useState({
         full_name: "",
         email: "",
         password: "",
         confirm_password: ""
     });
+    const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setUserObj((prev) => ({ ...prev, [name]: value }));
+        setUserObj((prev) => ({ ...prev, [name]: value }))
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add submit logic here
-        console.log("User registered:", userObj);
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        
+        const res = await registerUser(userObj)
+        
+        if (!res.success) {
+            setErrors(Array.isArray(res.error) ? res.error : [res.error])
+        } else {
+            localStorage.setItem("success_login", res.message)
+            navigate('/login')
+        }
+        setIsLoading(false)
     };
 
     return (
@@ -79,10 +94,25 @@ export const RegisterForm = () => {
 
             <button
                 type="submit"
+                disabled={isLoading}
                 className="w-full py-3 mt-4 bg-neutral-950 text-white font-semibold rounded-md hover:bg-mainOrange/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainOrange transition-all duration-200"
             >
-                Sign up
+                {isLoading ? <Spinner /> : "Sign up"}
             </button>
+            {errors ? (
+                <ul>
+                    {errors && errors.map((error, index) => (
+                        <li 
+                            key={index} 
+                            className="text-xs text-red-600 font-light"
+                        >
+                            {error}
+                        </li>
+                    ))}
+                </ul>
+            ) : 
+                null
+            }
         </form>
     );
 };

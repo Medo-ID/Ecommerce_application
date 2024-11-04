@@ -13,7 +13,8 @@ const registerUser = async (req, res, next) => {
     
     // Return errors if exists
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const errorMessages = errors.array().map(err => err.msg)
+        return res.status(400).json({ error: errorMessages });
     }
     
     
@@ -31,7 +32,7 @@ const registerUser = async (req, res, next) => {
         await insertUser(full_name, email, hash, salt);
         
         // Return success message
-        res.status(201).json({ success: 'Registration successful' });
+        res.status(201).json({ message: 'Registration successful' });
     } catch (error) {
         next(error); // Pass error to error-handling middleware
     }

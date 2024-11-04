@@ -17,14 +17,16 @@ CREATE TABLE Categories (
     description TEXT
 );
 
--- Products table
+-- Products table with additional columns
 CREATE TABLE Products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    image TEXT, -- New column for storing image path or URL
     category_id INT REFERENCES Categories(id) ON DELETE SET NULL,
     stock INT NOT NULL CHECK (stock >= 0),
     price NUMERIC(10, 2) NOT NULL,
+    rating FLOAT CHECK (rating >= 0 AND rating <= 5), -- New column for storing rating (0-5 range)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

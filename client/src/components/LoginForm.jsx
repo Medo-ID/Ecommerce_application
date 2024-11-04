@@ -1,20 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../apis/auth";
+import { useAuth } from "../hooks/authContext";
+import { toast } from "sonner";
+import { Spinner } from "./Spinner";
 
 export const LoginForm= () => {
+    const navigate = useNavigate();
+    const { checkAuthStatus } = useAuth();
     const [credentials, setCredentials] = useState({
         email: "",
         password: ""
     });
+    const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const message = localStorage.getItem("success_login")
+        if (message) {
+            toast.success(message)
+        }
+        localStorage.removeItem("success_login")
+    }, []);
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add submit logic here
-        console.log("User logged in:", credentials);
+        setIsLoading(true)
+
+        const res = await loginUser(credentials)
+
+        if (!res.success) {
+            setErrors(Array.isArray(res.error) ? res.error : [res.error])
+        } else {
+            checkAuthStatus()
+            navigate('/')
+        }
+        setIsLoading(false)
     };
 
     return (
@@ -49,10 +75,25 @@ export const LoginForm= () => {
 
             <button
                 type="submit"
+                disabled={isLoading}
                 className="w-full py-3 mt-4 bg-neutral-950 text-white font-semibold rounded-md hover:bg-mainOrange/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainOrange transition-all duration-200"
             >
-                Sign up
+                {isLoading ? <Spinner /> : "Log in"}
             </button>
+            {errors ? (
+                <ul>
+                    {errors?.map((error, index) => 
+                        <li 
+                            key={index}
+                            className="text-xs text-red-600 font-light"
+                        >
+                            {error}
+                        </li>
+                    )}
+                </ul>
+            ) : 
+                null
+            }
         </form>
     );
 };

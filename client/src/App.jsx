@@ -1,23 +1,11 @@
-// import { getTitles } from "./apis"
-// import { useState, useEffect } from "react"
-
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
+import { Toaster } from 'sonner';
 
 function App() {
-    // const [titles, setTitles] = useState([]);
-
-    // const getData = async () => {
-    //     const data = await getTitles();
-    //     setTitles(data); // Set the fetched titles directly to the state
-    // };
-
-    // useEffect(() => {
-    //     getData(); // Fetch data and set titles on component mount
-    // }, []);
-
     return (
         <div className="min-h-screen flex flex-col justify-between">
+            <Toaster position="top-right" expand={false} />
             <header>
                 <Navbar />
             </header>
@@ -25,7 +13,7 @@ function App() {
                 <Outlet />
             </main>
             <footer>
-                <p>2024 &#169; All Rights Reserved</p>
+                <p className="text-center p-2">2024 &#169; All Rights Reserved</p>
             </footer>
         
         </div>
