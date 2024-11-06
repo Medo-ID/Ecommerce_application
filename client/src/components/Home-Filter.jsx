@@ -1,6 +1,6 @@
 // HomeFilter component
 import { useEffect, useState } from "react";
-import { FilterCard } from "./FilterCard";
+import { FilterCard } from "./Filter-Card";
 
 export const HomeFilter = () => {
     const [category, setCategory] = useState("all");

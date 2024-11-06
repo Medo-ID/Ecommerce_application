@@ -1,24 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
-import { ProductCard } from "../components/ProductCard";
-import { HomeFilter } from "../components/HomeFilter";
+import { ProductCard } from "../components/Product-Card";
+import { HomeFilter } from "../components/Home-Filter";
+import { fetchTrendingProducts } from "../apis/products";
 
 function Home() {
+    const [products, setProducts] = useState([])
+
+    const fetchTrending = async () => {
+        const res = await fetchTrendingProducts()
+        if (res.success) {
+            setProducts(res.products)
+        } else {
+            console.error(res.error)
+        }
+    }
     
     useEffect(() => {
-        const message = localStorage.getItem("success_logout")
-        if (message) {
-            toast.success(message)
-        }
-        localStorage.removeItem("success_logout")
-    }, []);
+        fetchTrending()
+    }, [])
 
+    console.log(products)
     return (
-        <div className="container mx-auto flex flex-col justify-evenly gap-20">
+        <div className="container mx-auto flex flex-col justify-evenly gap-24">
             
             {/* Hero section */}
-            <section className="my-4 flex flex-col md:flex-row justify-between items-center gap-20 px-6">
+            <section className="my-12 flex flex-col md:flex-row justify-between items-center gap-20 px-4">
                 <div className="flex flex-col justify-evenly items-start gap-8 max-w-2xl">
                     <p className="text-neutral-400 text-base">TRENDY COLLECTION 🔥</p>
                     <h1 className="text-5xl font-semibold">
@@ -44,7 +51,7 @@ function Home() {
             </section>
             
             {/* Best Categories Section */}
-            <section className="my-4 flex flex-col lg:flex-row justify-between items-center gap-10 px-6">
+            <section className="my-12 flex flex-col lg:flex-row justify-between items-center gap-10 px-4">
                 {/* Recliners */}
                 <div className="p-6 md:p-8 bg-mainOrange/10 flex justify-between items-center border border-mainOrange/25 w-full max-w-md">
                     <div className="flex flex-col justify-center gap-4">
@@ -59,7 +66,7 @@ function Home() {
                     <div className="w-32 h-32 md:w-40 md:h-40">
                         <img
                             className="w-full h-full object-cover rounded-lg"
-                            src="./imgs/recliner_chairs.png"
+                            src="./imgs/products/leather.png"
                             alt="Recliner Chair"
                         />
                     </div>
@@ -68,7 +75,7 @@ function Home() {
                 {/* Dining Chairs */}
                 <div className="p-6 md:p-8 bg-neutral-400/10 flex justify-between items-center border border-neutral-400/25 w-full max-w-md">
                     <div className="flex flex-col justify-center gap-4">
-                        <h2 className="text-2xl font-semibold">Accent Chairs</h2>
+                        <h2 className="text-2xl font-semibold">Accent</h2>
                         <p className="text-sm text-neutral-500 max-w-xs">
                             Chairs meant to add style and character to any room.
                         </p>
@@ -88,7 +95,7 @@ function Home() {
                 {/* Dining Chairs */}
                 <div className="p-6 md:p-8 bg-mainTeal/10 flex justify-between items-center border border-mainTeal/25 w-full max-w-md">
                     <div className="flex flex-col justify-center gap-4">
-                        <h2 className="text-2xl font-semibold">Dining Chairs</h2>
+                        <h2 className="text-2xl font-semibold">Dining</h2>
                         <p className="text-sm text-neutral-500 max-w-xs">
                             Comfortable chairs for dining rooms, available in various styles.
                         </p>
@@ -99,7 +106,7 @@ function Home() {
                     <div className="w-32 h-32 md:w-40 md:h-40">
                         <img
                             className="w-full h-full object-cover rounded-lg"
-                            src="./imgs/dining_chairs.png"
+                            src="./imgs/products/modern.png"
                             alt="Dining Chair"
                         />
                     </div>
@@ -107,7 +114,7 @@ function Home() {
             </section>
 
             {/* Trending Section */}
-            <section className="my-8 flex flex-col justify-between items-center gap-20 px-6">
+            <section className="my-12 flex flex-col justify-between items-center gap-20 px-4">
                 {/* Section Heading */}
                 <div className="flex flex-col items-center gap-2 max-w-xl">
                     <h2 className="text-3xl font-semibold">Trending Products</h2>
@@ -120,20 +127,20 @@ function Home() {
 
                 {/* Product Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {Array(4).fill(null).map((_, index) => (
+                    {products.map(item => (
                         <ProductCard
-                            key={index}
-                            img="./imgs/chair_home.png"
-                            title="Elegant Recliner"
-                            category="Recliners"
-                            rating={4.3}
-                            price={299.99}
+                            key={item.id}
+                            image={item.image}
+                            title={item.name}
+                            category={item.category_name}
+                            rating={item.rating}
+                            price={parseFloat(item.price)}
                         />
                     ))}
                 </div>
             </section>
 
-            <section className="my-8 flex flex-col justify-between gap-20 px-6">
+            <section className="my-12 flex flex-col justify-between gap-20 px-6">
                 <HomeFilter />
             </section>
 

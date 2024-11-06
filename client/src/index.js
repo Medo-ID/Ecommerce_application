@@ -16,9 +16,10 @@ import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import Account from "./views/Account";
 
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { RedirectUser } from "./components/RedirectUser";
+import { ProtectedRoute } from "./components/Protected-Route";
+import { RedirectUser } from "./components/Redirect-User";
 import { AuthProvider } from "./hooks/authContext";
+import Cart from "./views/Cart";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -49,7 +50,7 @@ const router = createBrowserRouter(
                     </ProtectedRoute>
                 } 
             />
-            <Route path="cart" element={<Account />} />
+            <Route path="cart" element={<Cart />} />
         </Route>
     )
 );

@@ -4,7 +4,7 @@ import { pool } from "../models/index.js"
 const getProducts = async (req, res) => {
     try {
         const query = `
-            SELECT p.id, p.name, p.description, p.price, c.name AS category_name
+            SELECT p.id, p.name, p.description, p.image, p.price, p.rating, c.name AS category_name
             FROM products AS p
             JOIN categories AS c
             ON p.category_id = c.id
@@ -22,7 +22,7 @@ const getProduct = async (req, res) => {
     const id = parseInt(req.params.id)
     try {
         const query = `
-            SELECT p.id, p.name, p.description, p.price, c.name AS category_name
+            SELECT p.id, p.name, p.description, p.image, p.price, p.rating, c.name AS category_name
             FROM products AS p
             JOIN categories AS c
             ON p.category_id = c.id
@@ -39,7 +39,7 @@ const getProduct = async (req, res) => {
 const latestProducts = async (req, res) => {
     try {
         const query = `
-            SELECT p.id, p.name, p.description, p.price, c.name AS category_name
+            SELECT p.id, p.name, p.description, p.image, p.price, p.rating, c.name AS category_name
             FROM products AS p
             JOIN categories AS c
             ON p.category_id = c.id
@@ -62,7 +62,7 @@ const getProductsByCategory = async (req, res) => {
     }
     try {
         const query = `
-            SELECT p.id, p.name, p.description, p.price, p.stock, c.name AS category_name
+            SELECT p.id, p.name, p.description, p.image, p.price, p.stock, p.rating, c.name AS category_name
             FROM products AS p
             JOIN categories AS c
             ON p.category_id = c.id

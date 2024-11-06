@@ -20,25 +20,25 @@ export const MainFooter = () => {
             <div className="space-y-2 text-sm">
                 <h3 className="font-semibold">Navigation</h3>
                 <ul className="space-y-1">
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/products'>Products</Link></li>
-                    <li><Link to='/signup'>Sign Up</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/'>Home</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/products'>Products</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/signup'>Sign Up</Link></li>
                 </ul>
             </div>
             <div className="space-y-2 text-sm">
                 <h3 className="font-semibold">Features</h3>
                 <ul className="space-y-1">
-                    <li><Link to='/cart'>Cart</Link></li>
-                    <li><Link to='/login'>Login</Link></li>
-                    <li><Link to='/privacy'>Privacy</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/cart'>Cart</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/login'>Login</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/privacy'>Privacy</Link></li>
                 </ul>
             </div>
             <div className="space-y-4 text-sm">
                 <h3 className="font-semibold">Categories</h3>
                 <ul className="space-y-1">
-                    <li><Link to='/products?category=recliners'>Recliners</Link></li>
-                    <li><Link to='/products?category=accent'>Accent</Link></li>
-                    <li><Link to='/products?category=dining'>Dining</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/products?category=recliners'>Recliners</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/products?category=accent'>Accent</Link></li>
+                    <li className="hover:text-mainOrange"><Link to='/products?category=dining'>Dining</Link></li>
                 </ul>
             </div>
         </div>

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "./components/Navbar";
+import { Navbar } from "./components/Nav-Bar";
 import { Toaster } from 'sonner';
-import { MainFooter } from "./components/MainFooter";
+import { MainFooter } from "./components/Main-Footer";
 
 function App() {
     return (
@@ -16,8 +16,8 @@ function App() {
             <footer className="bg-mainTeal text-neutral-100 h-fit">
                 <MainFooter />
                 <p className="text-center p-4 text-xs border-t border-neutral-200 container mx-auto">
-                    &#169; 2024 Studios. All Rights Reserved. 
-                    <a href="https://medo7id.com" className="text-mainOrange ml-1">Mohamed Idaghdour</a>
+                    &#169; 2024 Studios . All Rights Reserved . 
+                    <a href="https://medo7id.com" className="text-neutral-950 ml-1">Mohamed Idaghdour</a>
                 </p>
             </footer>
         </div>

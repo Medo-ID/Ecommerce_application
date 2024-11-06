@@ -8,11 +8,11 @@ export const Navbar = () => {
     const navigate = useNavigate()
     const { isAuthenticated, checkAuthStatus } = useAuth()
 
-    const activeLink = "text-neutral-950 font-medium border-b border-mainOrange md:py-1 transition-color duration-200";
-    const notActiveLink = "text-neutral-700 hover:text-neutral-950 md:py-1 transition-color duration-200";
+    const activeLink = "text-neutral-900 font-medium border-b border-mainOrange md:py-1 transition-color duration-200";
+    const notActiveLink = "text-neutral-700 hover:text-neutral-900 md:py-1 transition-color duration-200";
 
-    const activeIcon = "bg-neutral-950/10 p-2 rounded-full text-mainOrange transition-all duration-200";
-    const notActiveIcon = "hover:bg-neutral-950/5 p-2 rounded-full transition-all duration-200";
+    const activeIcon = "bg-neutral-900/10 p-2 rounded-full text-mainOrange transition-all duration-200 border border-mainOrange/25";
+    const notActiveIcon = "hover:bg-neutral-900/5 p-2 rounded-full transition-all duration-200";
 
     const handleLogout = async () => {
         const res = await logoutUser()
@@ -28,7 +28,7 @@ export const Navbar = () => {
         <nav className="container mx-auto flex justify-between items-center md:py-4 px-4">
             <div className="flex gap-12 items-center">
                 <h1 className="font-bold text-mainOrange text-lg md:py-1">
-                    <span className="text-neutral-950">S</span>tudios.
+                    <span className="text-neutral-900">S</span>tudios.
                 </h1>
                 <ul className="flex space-x-6 text-sm">
                     <Link to="/" className={pathname === '/' ? activeLink : notActiveLink}>
@@ -62,13 +62,13 @@ export const Navbar = () => {
                             className="flex items-center"
                             onClick={handleLogout}>
                             <LogOut 
-                                className={activeIcon}
+                                className="bg-neutral-900/10 p-2 rounded-full text-mainTeal transition-all duration-200 border border-mainTeal/25"
                                 size={34}
                             />
                         </button>
                     : 
                         <>
-                            <Link to="/login" className="text-neutral-950 hover:text-mainOrange py-2 px-4 transition-all duration-200">
+                            <Link to="/login" className="text-neutral-900 hover:text-mainOrange py-2 px-4 transition-all duration-200">
                                 Log in
                             </Link>
                             <Link to="/signup" className="bg-mainOrange rounded-2xl text-white py-2 px-4 hover:bg-mainTeal/70 shadow-xl transition-all duration-200">
