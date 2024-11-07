@@ -15,17 +15,20 @@ import Products from "./views/Products";
 import Login from "./views/Login";
 import SignUp from "./views/SignUp";
 import Account from "./views/Account";
+import Cart from "./views/Cart";
+import ProductDetail from "./views/ProductDetail";
 
 import { ProtectedRoute } from "./components/Protected-Route";
 import { RedirectUser } from "./components/Redirect-User";
 import { AuthProvider } from "./hooks/authContext";
-import Cart from "./views/Cart";
+import { CartProvider } from "./hooks/cartContext";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
             <Route 
                 path="login" 
                 element={
@@ -58,8 +61,10 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <AuthProvider>
-            <RouterProvider router={router} />
-        </AuthProvider>
+        <CartProvider>
+            <AuthProvider>
+                <RouterProvider router={router} />
+            </AuthProvider>
+        </CartProvider>
     </React.StrictMode>
 );

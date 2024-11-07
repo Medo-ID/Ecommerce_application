@@ -45,7 +45,7 @@ function Home() {
                 <div className="max-w-xl">
                     <img
                         className="w-full h-full object-cover"
-                        src="./imgs/chair_home.png" alt="Image of a dark blue chair"
+                        src="/imgs/chair_home.png" alt="Image of a dark blue chair"
                     />
                 </div>
             </section>
@@ -66,7 +66,7 @@ function Home() {
                     <div className="w-32 h-32 md:w-40 md:h-40">
                         <img
                             className="w-full h-full object-cover rounded-lg"
-                            src="./imgs/products/leather.png"
+                            src="/imgs/products/leather.png"
                             alt="Recliner Chair"
                         />
                     </div>
@@ -86,7 +86,7 @@ function Home() {
                     <div className="w-32 h-32 md:w-40 md:h-40">
                         <img
                             className="w-full h-full object-cover rounded-lg"
-                            src="./imgs/chair_home.png"
+                            src="/imgs/chair_home.png"
                             alt="Dining Chair"
                         />
                     </div>
@@ -106,7 +106,7 @@ function Home() {
                     <div className="w-32 h-32 md:w-40 md:h-40">
                         <img
                             className="w-full h-full object-cover rounded-lg"
-                            src="./imgs/products/modern.png"
+                            src="/imgs/products/modern.png"
                             alt="Dining Chair"
                         />
                     </div>
@@ -127,15 +127,8 @@ function Home() {
 
                 {/* Product Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map(item => (
-                        <ProductCard
-                            key={item.id}
-                            image={item.image}
-                            title={item.name}
-                            category={item.category_name}
-                            rating={item.rating}
-                            price={parseFloat(item.price)}
-                        />
+                    {products.map(product => (
+                        <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             </section>

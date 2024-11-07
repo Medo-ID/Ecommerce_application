@@ -53,26 +53,63 @@ const latestProducts = async (req, res) => {
     }
 }
 
-// Retrieving products by category
-const getProductsByCategory = async (req, res) => {
-    let name = req.query.name
-    if(name) {
-        // Ensure category name is always capitalized for db query
-        name = req.query.name.charAt(0).toUpperCase() + req.query.name.slice(1).toLowerCase()
-    }
+// Retrieving related products
+const getRelatedProducts = async (req, res) => {
+    let name = req.query.name;
+    // Ensure category name is formatted correctly
+    name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
     try {
         const query = `
-            SELECT p.id, p.name, p.description, p.image, p.price, p.stock, p.rating, c.name AS category_name
+            SELECT p.id, p.name, p.description, p.image, p.price, p.rating, c.name AS category_name
             FROM products AS p
             JOIN categories AS c
             ON p.category_id = c.id
             WHERE c.name = $1
+            ORDER BY p.created_at 
+            DESC LIMIT 4
+        `;
+        // Pass the name parameter as an array
+        const { rows } = await pool.query(query, [name]);
+        res.status(200).json({ data: rows });
+    } catch (error) {
+        res.status(404).json({ message: 'Error retrieving related products', error });
+    }
+};
+
+
+// Retrieving products by category
+const getProductsByCategory = async (req, res) => {
+    let name = req.query.name
+    let query
+    let queryParams = []
+
+    if (name && name.toLowerCase() !== 'all') {
+        // Capitalize the first letter of category name for DB consistency
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+        
+        query = `
+            SELECT p.id, p.name, p.description, p.image, p.price, p.stock, p.rating, c.name AS category_name
+            FROM products AS p
+            JOIN categories AS c ON p.category_id = c.id
+            WHERE c.name = $1
         `
-        const { rows } = await pool.query(query, [name])
-        res.status(200).json({ data: rows })
+        queryParams = [name]
+    } else {
+        query = `
+            SELECT p.id, p.name, p.description, p.image, p.price, p.stock, p.rating, c.name AS category_name
+            FROM products AS p
+            JOIN categories AS c ON p.category_id = c.id
+            LIMIT 6
+        `
+    }
+
+    try {
+        const { rows } = await pool.query(query, queryParams)
+        res.status(200).json({ data: rows });
     } catch (error) {
         res.status(404).json({ message: 'Category not found', error })
     }
 }
 
-export { getProducts, getProduct, latestProducts, getProductsByCategory }
+export { getProducts, getProduct, latestProducts, getRelatedProducts, getProductsByCategory }
