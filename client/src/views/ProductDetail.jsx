@@ -4,10 +4,12 @@ import { fetchOneProduct, fetchRelatedProducts } from "../apis/products";
 import { Spinner } from "../components/Spinner";
 import { Star } from "lucide-react";
 import { RelatedProducts } from "../components/Related-Products";
+import { AddToCartButton } from "../components/Add-To-Cart";
 
 function ProductDetail() {
     const { id } = useParams()
     const [product, setProduct] = useState(null)
+    const [quantity, setQuantity] = useState(1)
     const [productLoading, setProductLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -77,7 +79,15 @@ function ProductDetail() {
                     </div>
                     <div className="flex gap-4 justify-start items-center">
                         <p className="text-lg font-semibold">${product.price}</p>
-                        <button className="bg-mainOrange rounded-2xl text-white py-2 px-4 hover:bg-mainTeal/70 shadow-xl transition-all duration-200">Add To Cart</button>
+                        {/* Quantity Input */}
+                        <input
+                            type="number"
+                            value={quantity}
+                            min="1"
+                            onChange={(e) => setQuantity(e.target.value)}
+                            className="w-16 p-2 mx-auto text-center border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-mainTeal rounded-md"
+                        />
+                        <AddToCartButton product={product} quantity={quantity} />
                     </div>
                 </div>
             </section>

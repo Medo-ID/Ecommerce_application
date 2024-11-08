@@ -18,12 +18,32 @@ const isProductInCart = async (user_id, product_id) => {
 }
 
 // Requests
+// Save localStorage items to database when authenticated
+const saveItems = async (req, res) => {
+    const user_id = req.user.id
+    const { cartItems } = req.body
+    try {
+        for (const item of cartItems) {
+            const query = `
+                INSERT INTO cart (user_id, product_id, quantity)
+                VALUES ($1, $2, $3) 
+                ON CONFLICT (user_id, product_id) 
+                DO UPDATE SET quantity = cart.quantity + EXCLUDED.quantity; 
+            `
+            await pool.query(query, [user_id, parseInt(item.id), parseInt(item.quantity)])
+        }
+        res.status(201).json({ success: true, message: "Items successfully saved to the database." })
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to save items to the database." })
+    }
+}
+
 // Retrieving cart for specefic user
 const getCart = async (req, res) => {
     const user_id = req.user.id
     try {
         const query = `
-            SELECT p.name AS product_name, c.quantity
+            SELECT c.product_id AS id, p.name , p.image, p.price, c.quantity
             FROM cart AS c
             JOIN products AS p
             ON c.product_id = p.id
@@ -77,7 +97,7 @@ const addToCart = async (req, res) => {
     }
 
     const { rows } = await pool.query(query, queryParams)
-    res.status(201).json({ message: 'Added Successfully', data: rows[0] })
+    res.status(201).json({ message: 'Item Added Successfully', data: rows[0] })
 }
 
 // Update Cart (Add, Update, or Delete based on quantity)
@@ -125,8 +145,20 @@ const updateCart = async (req, res) => {
             return res.status(201).json({ message: 'Item added to cart', data: rows[0] });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Error updating cart', error });
+        res.status(500).json({ message: 'Error updating cart!', error });
     }
 };
 
-export { getCart, addToCart, updateCart }
+const deleteFromCart = async (req, res) => {
+    const user_id = req.user.id
+    const product_id = req.params.product_id
+
+    try {
+        await pool.query('DELETE FROM cart WHERE user_id = $1 AND product_id = $2', [user_id, product_id])
+        return res.status(200).json({ message: 'Item deleted from cart' })
+    } catch (error) {
+        return res.status(500).json({ message: 'Error deleting from cart!', error })
+    }
+}
+
+export { saveItems, getCart, addToCart, updateCart, deleteFromCart }

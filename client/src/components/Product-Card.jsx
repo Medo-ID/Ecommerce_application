@@ -1,9 +1,10 @@
 import { Plus, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CompactAddToCartButton } from './Add-To-Cart';
 
-export const ProductCard = (product) => {
+export const ProductCard = ({product}) => {
     // Round rating to nearest half-star for cleaner display
-    const { id, image, name, category_name, rating, price } = product.product
+    const { id, image, name, category_name, rating, price } = product
     const roundedRating = Math.round(rating * 2) / 2;
     
     return (
@@ -49,12 +50,7 @@ export const ProductCard = (product) => {
                 <p className="text-md font-medium text-mainOrange">${price}</p>
 
                 {/* Add to Cart Button */}
-                <button 
-                    onClick={() => handleAddToCart()} 
-                    className="bg-mainOrange p-2  rounded-xl text-white hover:bg-mainTeal/90 transition-all duration-200"
-                >
-                    <Plus size={18} />
-                </button>
+                <CompactAddToCartButton product={product} />
             </div>
         </div>
     );

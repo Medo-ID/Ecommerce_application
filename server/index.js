@@ -97,8 +97,8 @@ app.get('/auth/github/callback',
 app.use('/api/auth', authRouter);
 app.use('/api/users', isAuthenticated, userRouter);
 app.use('/api/products', productRouter);
-app.use('/api/cart', cartRouter);
-app.use('/api/orders', orderRouter);
+app.use('/api/cart', isAuthenticated, cartRouter);
+app.use('/api/orders', isAuthenticated, orderRouter);
 
 // Error handling
 app.use((err, req, res, next) => {

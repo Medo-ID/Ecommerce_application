@@ -4,10 +4,13 @@ import { loginUser } from "../apis/auth";
 import { useAuth } from "../hooks/authContext";
 import { toast } from "sonner";
 import { Spinner } from "./Spinner";
+import { clearCartInLocalStorage, getCartFromLocalStorage } from "../utils/cartStorage";
+import { saveCartToDatabase } from "../apis/cart";
 
 export const LoginForm= () => {
-    const navigate = useNavigate();
-    const { checkAuthStatus } = useAuth();
+    const navigate = useNavigate()
+    const { checkAuthStatus } = useAuth()
+    const localCartItems = getCartFromLocalStorage()
     const [credentials, setCredentials] = useState({
         email: "",
         password: ""
@@ -38,6 +41,12 @@ export const LoginForm= () => {
             setErrors(Array.isArray(res.error) ? res.error : [res.error])
         } else {
             checkAuthStatus()
+            if (localCartItems.length > 0) {
+                const result = await saveCartToDatabase(localCartItems)
+                if (result.success) {
+                    clearCartInLocalStorage()
+                }
+            }
             navigate('/')
         }
         setIsLoading(false)

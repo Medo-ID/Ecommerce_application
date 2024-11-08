@@ -1,42 +1,47 @@
-import { Plus } from "lucide-react"
-import { useAuth } from "../hooks/authContext"
-import { useCart } from "../hooks/cartContext"
+import { Plus } from "lucide-react";
+import { useAuth } from "../hooks/authContext";
+import { useCart } from "../hooks/cartContext";
+import { addItemToCart } from "../apis/cart";
+import { toast } from "sonner";
 
-const { isAuthenticated, checkAuthStatus } = useAuth()
-const { addToCart } = useCart()
+const CartButton = ({ product, quantity = 1, variant = "full", label = "Add To Cart" }) => {
+    const { isAuthenticated } = useAuth()
+    const { addToCart } = useCart()
 
-const handleAddToCartFromLocalStorage = (product, quantity) => {
-    addToCart(product)
-}
+    const handleAddToCart = async () => {
+        if (isAuthenticated) {
+            const res = await addItemToCart(product.id, quantity)
+            if (res.success) {
+                toast.success(res.message)
+            } else {
+                toast.error("Something went wrong! Item can't be added.")
+            }
+        } else {
+            addToCart(product, quantity)
+            toast.success("Item added to cart!")
+        }
+    };
 
-const handleAddToCartFromServer = async (id, quantity) => {
-    const res = await addItemToCart(id)
+    // Class variants for different button styles
+    const buttonStyles = {
+        full: "bg-mainOrange rounded-2xl text-white py-2 px-4 hover:bg-mainTeal/70 shadow-xl transition-all duration-200",
+        compact: "bg-mainOrange p-2 rounded-xl text-white hover:bg-mainTeal/90 transition-all duration-200",
+    }
 
-}
-
-export const compactAddToCartButton = () => {
     return (
-        <button 
-            onClick={() => handleAddToCart()} 
-            className="bg-mainOrange p-2  rounded-xl text-white hover:bg-mainTeal/90 transition-all duration-200"
+        <button
+            onClick={handleAddToCart}
+            className={buttonStyles[variant]}
         >
-            <Plus size={18} />
+            {variant === "compact" ? <Plus size={18} /> : label}
         </button>
     )
-}
+};
 
-export const addToCartButton = () => {
-    return (
-        <button className="bg-mainOrange rounded-2xl text-white py-2 px-4 hover:bg-mainTeal/70 shadow-xl transition-all duration-200">
-            Add To Cart
-        </button>
-    )
-}
+// Usage Examples:
+// Full Add to Cart Button
+export const AddToCartButton = (props) => <CartButton {...props} variant="full" />
 
-export const UpdateDeleteCartButton = () => {
-    return (
-        <button className="mx-auto px-4 py-2 text-sm text-white bg-mainTeal rounded-2xl hover:bg-mainOrange/70 focus:outline-none focus:ring-2 focus:ring-mainTeal focus:ring-offset-1 transition">
-            Update
-        </button>
-    )
-}
+// Compact Button with Plus Icon
+export const CompactAddToCartButton = (props) => <CartButton {...props} variant="compact" />
+
