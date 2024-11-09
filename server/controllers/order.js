@@ -2,6 +2,11 @@ import { pool } from "../models/index.js";
 
 // Retrieving orders for user
 const getOrders = async (req, res) => {
+    // Ensure the user is authenticated
+    if (!req.user) {
+        return res.status(401).json({ success: false, message: 'Unauthorized access' });
+    }
+    
     const user_id = req.user.id
     try {
         const { rows } = await pool.query('SELECT * FROM orders WHERE user_id = $1', [user_id])
@@ -13,12 +18,18 @@ const getOrders = async (req, res) => {
 
 // Retrieving order items
 const getOrderDetails = async (req, res) => {
+    // Ensure the user is authenticated
+    if (!req.user) {
+        return res.status(401).json({ success: false, message: 'Unauthorized access' });
+    }
+    
     const order_id = req.params.order_id
     try{
         const query = `
             SELECT 
                 o.order_id, 
-                p.name, o.quantity, 
+                p.name, 
+                o.quantity, 
                 o.unit_price, 
                 (o.quantity * o.unit_price) AS total_price
             FROM 

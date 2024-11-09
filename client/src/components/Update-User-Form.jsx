@@ -1,39 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Spinner } from './Spinner';
+import { updateCurrentUser } from '../apis/user';
+import { toast } from 'sonner';
 
-const UpdateUserForm = () => {
-    const [formData, setFormData] = useState({
-        full_name: '',
-        email: '',
-        old_password: '',
-        new_password: '',
-        confirm_new_password: '',
-        phone_number: ''
-    })
+const UpdateUserForm = ({ user }) => {
+    const { full_name, email, phone_number } = user
+    const [formData, setFormData] = useState(null)
+    const [errors, setErrors] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
-    const [error, setError] = useState(null)
-    const [success, setSuccess] = useState(null)
-    const [isLoading, setIsLoading] = useState(false) 
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                full_name: full_name || '',
+                email: email || '',
+                old_password: '',
+                new_password: '',
+                confirm_new_password: '',
+                phone_number: phone_number || '',
+            })
+        }
+    }, [user])
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
-        setError(null)
-        setSuccess(null)
-        
+        setErrors([])
+
+        const changedData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value && value !== user[key])
+        );
+
+        if (!Object.keys(changedData).length) {
+            setIsLoading(false)
+            toast.info('No changes detected')
+            return
+        }
+
+        const res = await updateCurrentUser(user.id, changedData)
+        if (res.success) {
+            setFormData(res.user)
+            toast.success('Profile has been updated!')
+        } else {
+            setErrors(Array.isArray(res.error) ? res.error : [res.error])
+        }
+        setIsLoading(false)
     };
+
+    if (!formData) return <Spinner />
 
     return (
         <div className="max-w-lg py-4">
             <h2 className="text-2xl font-semibold mb-6">Update Information</h2>
-            
             <form onSubmit={handleSubmit} className="space-y-4">
-                
                 {/* Full Name */}
                 <div>
                     <label className="block text-sm font-medium">Full Name</label>
@@ -46,7 +70,6 @@ const UpdateUserForm = () => {
                         placeholder="Enter full name"
                     />
                 </div>
-                
                 {/* Email */}
                 <div>
                     <label className="block text-sm font-medium">Email</label>
@@ -59,7 +82,6 @@ const UpdateUserForm = () => {
                         placeholder="Enter email"
                     />
                 </div>
-                
                 {/* Phone Number */}
                 <div>
                     <label className="block text-sm font-medium">Phone Number</label>
@@ -72,7 +94,6 @@ const UpdateUserForm = () => {
                         placeholder="Enter phone number"
                     />
                 </div>
-                
                 {/* Old Password */}
                 <div>
                     <label className="block text-sm font-medium">Old Password</label>
@@ -85,7 +106,6 @@ const UpdateUserForm = () => {
                         placeholder="Enter old password"
                     />
                 </div>
-                
                 {/* New Password */}
                 <div>
                     <label className="block text-sm font-medium">New Password</label>
@@ -98,7 +118,6 @@ const UpdateUserForm = () => {
                         placeholder="Enter new password"
                     />
                 </div>
-                
                 {/* Confirm New Password */}
                 <div>
                     <label className="block text-sm font-medium">Confirm New Password</label>
@@ -111,24 +130,23 @@ const UpdateUserForm = () => {
                         placeholder="Confirm new password"
                     />
                 </div>
-                
                 {/* Error Message */}
-                {error && (
-                    <div className="text-red-500 text-sm mt-2">{error}</div>
+                {errors.length > 0 && (
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index} className="text-xs text-red-600 font-light">
+                                {error}
+                            </li>
+                        ))}
+                    </ul>
                 )}
-                
-                {/* Success Message */}
-                {success && (
-                    <div className="text-green-500 text-sm mt-2">{success}</div>
-                )}
-                
                 {/* Submit Button */}
                 <button
                     disabled={isLoading}
                     type="submit"
-                    className="w-full bg-mainOrange text-white rounded-md px-4 py-2 mt-4 hover:bg-mainTeal"
-                >   
-                    {isLoading ? <Spinner /> : 'Update'}
+                    className="w-full text-sm font-medium bg-mainOrange text-white rounded-lg px-4 py-2 mt-4 hover:bg-neutral-900"
+                >
+                    {isLoading ? <Spinner /> : 'Update Profile'}
                 </button>
             </form>
         </div>
@@ -136,3 +154,4 @@ const UpdateUserForm = () => {
 };
 
 export default UpdateUserForm;
+

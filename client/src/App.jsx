@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./components/Nav-Bar";
-import { Toaster } from 'sonner';
+import { toast, Toaster } from 'sonner';
 import { MainFooter } from "./components/Main-Footer";
 
 function App() {
     return (
         <div className="min-h-screen flex flex-col justify-between">
-            <Toaster position="top-right" expand={false} />         
+            <Toaster position="top-right" expand={false} richColors closeButton />         
             <header>
                 <Navbar />
             </header>

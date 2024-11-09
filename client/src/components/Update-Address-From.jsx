@@ -1,39 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Spinner } from './Spinner';
+import { updateUserAddress } from '../apis/user';
+import { toast } from 'sonner';
 
-const UpdateAddressForm = () => {
-    const [formData, setFormData] = useState({
-        address_line1: '',
-        address_line2: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: ''
-    });
-
-    const [error, setError] = useState(null)
-    const [success, setSuccess] = useState(null)
+const UpdateAddressForm = ({ address }) => {
+    const { address_line1, address_line2, city, state, postal_code, country } = address
+    const [formData, setFormData] = useState(null);
+    const [errors, setErrors] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
+    useEffect(() => {
+        if (address) {
+            setFormData({
+                address_line1: address_line1 || '',
+                address_line2: address_line2 || '',
+                city: city || '',
+                state: state|| '',
+                postal_code: postal_code || '',
+                country: country || ''
+            })
+        }
+    }, [address])
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
-        setError(null)
-        setSuccess(null)
-        
-    }
+        setErrors([])
+
+        const changedData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value && value !== address[key])
+        );
+
+        if (!Object.keys(changedData).length) {
+            setIsLoading(false)
+            toast.info('No changes detected')
+            return
+        }
+
+        const res = await updateUserAddress(address.user_id, changedData)
+        if (res.success) {
+            setFormData(res.address)
+            toast.success('Address has been updated!')
+        } else {
+            setErrors(Array.isArray(res.error) ? res.error : [res.error])
+        }
+        setIsLoading(false)
+    };
+    
+    if (!formData) return <Spinner />
 
     return (
         <div className="max-w-lg py-4">
             <h2 className="text-2xl font-semibold mb-6">Update Address</h2>
-            
             <form onSubmit={handleSubmit} className="space-y-4">
-                
                 {/* Address Line 1 */}
                 <div>
                     <label className="block text-sm font-medium">Address Line 1</label>
@@ -46,8 +70,7 @@ const UpdateAddressForm = () => {
                         placeholder="Enter address line 1"
                         required
                     />
-                </div>
-                
+                </div>               
                 {/* Address Line 2 */}
                 <div>
                     <label className="block text-sm font-medium">Address Line 2</label>
@@ -59,8 +82,7 @@ const UpdateAddressForm = () => {
                         className="mt-1 block w-full border rounded-md px-3 py-2"
                         placeholder="Enter address line 2 (optional)"
                     />
-                </div>
-                
+                </div>                
                 {/* City */}
                 <div>
                     <label className="block text-sm font-medium">City</label>
@@ -73,8 +95,7 @@ const UpdateAddressForm = () => {
                         placeholder="Enter city"
                         required
                     />
-                </div>
-                
+                </div>              
                 {/* State */}
                 <div>
                     <label className="block text-sm font-medium">State</label>
@@ -85,10 +106,8 @@ const UpdateAddressForm = () => {
                         onChange={handleChange}
                         className="mt-1 block w-full border rounded-md px-3 py-2"
                         placeholder="Enter state"
-                        required
                     />
-                </div>
-                
+                </div>               
                 {/* Postal Code */}
                 <div>
                     <label className="block text-sm font-medium">Postal Code</label>
@@ -102,7 +121,6 @@ const UpdateAddressForm = () => {
                         required
                     />
                 </div>
-                
                 {/* Country */}
                 <div>
                     <label className="block text-sm font-medium">Country</label>
@@ -116,22 +134,21 @@ const UpdateAddressForm = () => {
                         required
                     />
                 </div>
-                
                 {/* Error Message */}
-                {error && (
-                    <div className="text-red-500 text-sm mt-2">{error}</div>
+                {errors.length > 0 && (
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index} className="text-xs text-red-600 font-light">
+                                {error}
+                            </li>
+                        ))}
+                    </ul>
                 )}
-                
-                {/* Success Message */}
-                {success && (
-                    <div className="text-green-500 text-sm mt-2">{success}</div>
-                )}
-                
                 {/* Submit Button */}
                 <button
                     disabled={isLoading}
                     type="submit"
-                    className="w-full bg-mainOrange text-white rounded-md px-4 py-2 mt-4 hover:bg-mainTeal"
+                    className="w-full text-sm font-medium bg-mainOrange text-white rounded-lg py-2 mt-4 hover:bg-neutral-900"
                 >
                     {isLoading ? <Spinner /> : 'Update Address'}
                 </button>

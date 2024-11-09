@@ -15,7 +15,7 @@ export const LoginForm= () => {
         email: "",
         password: ""
     });
-    const [errors, setErrors] = useState([]);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
@@ -33,12 +33,13 @@ export const LoginForm= () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null)
         setIsLoading(true)
 
         const res = await loginUser(credentials)
 
         if (!res.success) {
-            setErrors(Array.isArray(res.error) ? res.error : [res.error])
+            setError(res.error)
         } else {
             checkAuthStatus()
             if (localCartItems.length > 0) {
@@ -81,6 +82,7 @@ export const LoginForm= () => {
                     className="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mainOrange transition-all duration-200"
                 />
             </div>
+            {error &&  <p className="text-xs text-red-600 font-light">{error}</p>}
 
             <button
                 type="submit"
@@ -89,20 +91,6 @@ export const LoginForm= () => {
             >
                 {isLoading ? <Spinner /> : "Log in"}
             </button>
-            {errors ? (
-                <ul>
-                    {errors?.map((error, index) => 
-                        <li 
-                            key={index}
-                            className="text-xs text-red-600 font-light"
-                        >
-                            {error}
-                        </li>
-                    )}
-                </ul>
-            ) : 
-                null
-            }
         </form>
     );
 };

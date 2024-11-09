@@ -10,6 +10,21 @@ CREATE TABLE Users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Addresses table
+CREATE TABLE Addresses (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(id) ON DELETE CASCADE,
+    address_line1 VARCHAR(255),
+    address_line2 VARCHAR(255),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    postal_code VARCHAR(20),
+    country VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 -- Categories table
 CREATE TABLE Categories (
     id SERIAL PRIMARY KEY,
@@ -22,11 +37,11 @@ CREATE TABLE Products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    image TEXT, -- New column for storing image path or URL
+    image TEXT,
     category_id INT REFERENCES Categories(id) ON DELETE SET NULL,
     stock INT NOT NULL CHECK (stock >= 0),
     price NUMERIC(10, 2) NOT NULL,
-    rating FLOAT CHECK (rating >= 0 AND rating <= 5), -- New column for storing rating (0-5 range)
+    rating FLOAT CHECK (rating >= 0 AND rating <= 5),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -36,7 +36,7 @@ export const loginUser = async (credentials) => {
         if (response.ok) {
             return { success: true, message: data.message }
         } else {
-            return { success: false, error: data.error }
+            return { success: false, error: data.message }
         }
 
     } catch (error) {
