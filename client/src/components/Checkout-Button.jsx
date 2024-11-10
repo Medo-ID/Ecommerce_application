@@ -1,5 +1,6 @@
 export const Checkout = () => {
     const handleCheckout = () => {
+        // TODO:
         console.log('GG')
     }
     return (

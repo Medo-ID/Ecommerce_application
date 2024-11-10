@@ -5,6 +5,7 @@ import { HomeFilter } from "../components/Home-Filter";
 import { fetchTrendingProducts } from "../apis/products";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
+import { toast } from "sonner";
 
 
 function Home() {
@@ -18,6 +19,14 @@ function Home() {
             console.error(res.error)
         }
     }
+
+    useEffect(() => {
+        const message = localStorage.getItem("success_login")
+        if (message) {
+            toast.success(message)
+        }
+        localStorage.removeItem("success_login")
+    }, [])
     
     useEffect(() => {
         fetchTrending()
@@ -26,41 +35,39 @@ function Home() {
     return (
         <div className="container mx-auto flex flex-col justify-evenly gap-24">
             
-{/* Hero section */}
-<section className="relative my-4 flex flex-col md:flex-row justify-between items-center gap-20 px-4 overflow-hidden">
+            {/* Hero section */}
+            <section className="relative my-4 flex flex-col md:flex-row justify-between items-center gap-20 px-4 overflow-hidden">
 
-    {/* Animated background */}
-    <div className="absolute inset-0 bg-gradient-to-r from-mainOrange/40 via-mainTeal/40 to-mainOrange/40 blur-3xl opacity-80 animate-rotateGradient-slow"></div>
+                {/* Animated background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-mainOrange/40 via-mainTeal/40 to-mainOrange/40 blur-3xl opacity-80 animate-rotateGradient-slow"></div>
 
-    <div className="relative z-10 flex flex-col justify-evenly items-start gap-8 max-w-2xl md:mx-10">
-        <p className="text-neutral-600 text-sm md:text-base drop-shadow-lg">TRENDY COLLECTION 🔥</p>
-        <h1 className="text-4xl md:text-6xl font-semibold text-900 drop-shadow-2xl leading-tight">
-            Make Your 
-            <span className="text-mainOrange drop-shadow-2xl"> Interior </span> 
-            Unique & Modern 
-            <span className="text-mainOrange">.</span>
-        </h1>
-        <p className="text-sm md:text-base text-neutral-900 drop-shadow-lg leading-relaxed">
-            Turn your room with panto into a minimalist and modern masterpiece.
-        </p>
-        <Link 
-            to="products"
-            className="mt-4 bg-mainOrange hover:bg-mainTeal/80 text-white rounded-2xl py-3 px-8 shadow-custom-orange hover:shadow-custom-teal transition-all duration-300"
-        >
-            Discover Now
-        </Link>
-    </div>
+                <div className="relative z-10 flex flex-col justify-evenly items-start gap-8 max-w-2xl md:mx-10">
+                    <p className="text-neutral-600 text-sm md:text-base drop-shadow-lg">TRENDY COLLECTION 🔥</p>
+                    <h1 className="text-4xl md:text-6xl font-semibold text-900 drop-shadow-2xl leading-tight">
+                        Make Your 
+                        <span className="text-mainOrange drop-shadow-2xl"> Interior </span> 
+                        Unique & Modern 
+                        <span className="text-mainOrange">.</span>
+                    </h1>
+                    <p className="text-sm md:text-base text-neutral-900 drop-shadow-lg leading-relaxed">
+                        Turn your room with panto into a minimalist and modern masterpiece.
+                    </p>
+                    <Link 
+                        to="products"
+                        className="mt-4 bg-mainOrange hover:bg-mainTeal/80 text-white rounded-2xl py-3 px-8 shadow-custom-orange hover:shadow-custom-teal transition-all duration-300"
+                    >
+                        Discover Now
+                    </Link>
+                </div>
 
-    <div className="relative z-10 max-w-xl">
-        <img
-            className="w-full h-full object-cover"
-            src="/imgs/chair_home.png" 
-            alt="Image of a dark blue chair"
-        />
-    </div>
-</section>
-
-
+                <div className="relative z-10 max-w-xl">
+                    <img
+                        className="w-full h-full object-cover"
+                        src="/imgs/chair_home.png" 
+                        alt="Image of a dark blue chair"
+                    />
+                </div>
+            </section>
             
             {/* Best Categories Section */}
             <section className="my-4 md:my-12 flex flex-col lg:flex-row justify-between items-center gap-10 px-4">

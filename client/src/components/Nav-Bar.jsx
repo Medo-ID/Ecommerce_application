@@ -1,14 +1,14 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { User, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../hooks/authContext";
 import { logoutUser } from "../apis/auth";
 import CartIcon from "./Cart-Icon";
 import { useState } from "react";
 import { useCart } from "../hooks/cartContext";
+import { toast } from "sonner";
 
 export const Navbar = () => {
     const { pathname } = useLocation()
-    const navigate = useNavigate()
     const { isAuthenticated, checkAuthStatus } = useAuth()
     const { refreshCartCount } = useCart()
     const [showMobileMenu, setShowMobileMenu] = useState(false)
@@ -25,8 +25,7 @@ export const Navbar = () => {
         if (res.success) {
             checkAuthStatus()
             refreshCartCount()
-            localStorage.setItem("success_logout", res.message)
-            navigate('/')
+            toast.success(res.message)
         }
     };
 

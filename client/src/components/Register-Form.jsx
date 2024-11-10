@@ -28,7 +28,7 @@ export const RegisterForm = () => {
         if (!res.success) {
             setErrors(Array.isArray(res.error) ? res.error : [res.error])
         } else {
-            localStorage.setItem("success_login", res.message)
+            localStorage.setItem("success_register", res.message)
             navigate('/login')
         }
         setIsLoading(false)

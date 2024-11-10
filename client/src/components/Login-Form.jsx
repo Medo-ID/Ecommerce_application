@@ -24,11 +24,11 @@ export const LoginForm= () => {
     };
 
     useEffect(() => {
-        const message = localStorage.getItem("success_login")
+        const message = localStorage.getItem("success_register")
         if (message) {
             toast.success(message)
         }
-        localStorage.removeItem("success_login")
+        localStorage.removeItem("success_register")
     }, []);
     
     const handleSubmit = async (e) => {
@@ -48,6 +48,7 @@ export const LoginForm= () => {
                     clearCartInLocalStorage()
                 }
             }
+            localStorage.setItem("success_login", res.message)
             navigate('/')
         }
         setIsLoading(false)
