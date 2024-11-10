@@ -1,14 +1,18 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/authContext";
+import { Spinner } from "./Spinner";
 
 export const RedirectUser = ({ children }) => {
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, loading } = useAuth();
 
+    // Wait until the auth status is confirmed
+    if (loading) return <Spinner />;
+
+    // Redirect to the account page if the user is authenticated
     if (isAuthenticated) {
-        // Redirect to login if not authenticated
-        return <Navigate to="/account"  replace />
+        return <Navigate to="/account" replace />;
     }
 
-    // Render the children (protected content) if authenticated
-    return children
-}
+    // Render children if not authenticated (login or signup page)
+    return children;
+};

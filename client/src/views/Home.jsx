@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { ProductCard } from "../components/Product-Card";
 import { HomeFilter } from "../components/Home-Filter";
 import { fetchTrendingProducts } from "../apis/products";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
+
 
 function Home() {
     const [products, setProducts] = useState([])
@@ -23,34 +26,44 @@ function Home() {
     return (
         <div className="container mx-auto flex flex-col justify-evenly gap-24">
             
-            {/* Hero section */}
-            <section className="my-12 flex flex-col md:flex-row justify-between items-center gap-20 px-4">
-                <div className="flex flex-col justify-evenly items-start gap-8 max-w-2xl">
-                    <p className="text-neutral-400 text-base">TRENDY COLLECTION 🔥</p>
-                    <h1 className="text-5xl font-semibold">
-                        Make Your
-                        <span className="text-mainOrange drop-shadow-2xl"> Interior </span> 
-                        Unique & Modern 
-                        <span className="text-mainOrange">.</span>
-                    </h1>
-                    <p>Turn your room with panto into a lot more minimalist and modern.</p>
-                    <Link 
-                        to='products'
-                        className="mt-4 bg-mainOrange hover:bg-mainTeal/70 text-white rounded-2xl py-3 px-6 shadow-custom-orange hover:shadow-custom-teal transition-all delay-200"
-                    >
-                        Discover Now
-                    </Link>
-                </div>
-                <div className="max-w-xl">
-                    <img
-                        className="w-full h-full object-cover"
-                        src="/imgs/chair_home.png" alt="Image of a dark blue chair"
-                    />
-                </div>
-            </section>
+{/* Hero section */}
+<section className="relative my-4 flex flex-col md:flex-row justify-between items-center gap-20 px-4 overflow-hidden">
+
+    {/* Animated background */}
+    <div className="absolute inset-0 bg-gradient-to-r from-mainOrange/40 via-mainTeal/40 to-mainOrange/40 blur-3xl opacity-80 animate-rotateGradient-slow"></div>
+
+    <div className="relative z-10 flex flex-col justify-evenly items-start gap-8 max-w-2xl md:mx-10">
+        <p className="text-neutral-600 text-sm md:text-base drop-shadow-lg">TRENDY COLLECTION 🔥</p>
+        <h1 className="text-4xl md:text-6xl font-semibold text-900 drop-shadow-2xl leading-tight">
+            Make Your 
+            <span className="text-mainOrange drop-shadow-2xl"> Interior </span> 
+            Unique & Modern 
+            <span className="text-mainOrange">.</span>
+        </h1>
+        <p className="text-sm md:text-base text-neutral-900 drop-shadow-lg leading-relaxed">
+            Turn your room with panto into a minimalist and modern masterpiece.
+        </p>
+        <Link 
+            to="products"
+            className="mt-4 bg-mainOrange hover:bg-mainTeal/80 text-white rounded-2xl py-3 px-8 shadow-custom-orange hover:shadow-custom-teal transition-all duration-300"
+        >
+            Discover Now
+        </Link>
+    </div>
+
+    <div className="relative z-10 max-w-xl">
+        <img
+            className="w-full h-full object-cover"
+            src="/imgs/chair_home.png" 
+            alt="Image of a dark blue chair"
+        />
+    </div>
+</section>
+
+
             
             {/* Best Categories Section */}
-            <section className="my-12 flex flex-col lg:flex-row justify-between items-center gap-10 px-4">
+            <section className="my-4 md:my-12 flex flex-col lg:flex-row justify-between items-center gap-10 px-4">
                 {/* Recliners */}
                 <div className="p-6 md:p-8 bg-mainOrange/10 flex justify-between items-center border border-mainOrange/25 w-full max-w-md">
                     <div className="flex flex-col justify-center gap-4">
@@ -113,7 +126,7 @@ function Home() {
             </section>
 
             {/* Trending Section */}
-            <section className="my-12 flex flex-col justify-between items-center gap-20 px-4">
+            <section className="md:my-12 flex flex-col justify-between items-center gap-20 px-4">
                 {/* Section Heading */}
                 <div className="flex flex-col items-center gap-2 max-w-xl">
                     <h2 className="text-3xl font-semibold">Trending Products</h2>
@@ -124,15 +137,33 @@ function Home() {
                     </p>
                 </div>
 
-                {/* Product Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map(product => (
+                {/* Product Carousel for Mobile */}
+                <div className="w-full md:hidden">
+                    <Swiper
+                        spaceBetween={20}
+                        slidesPerView={1.5}
+                        pagination={{ clickable: true }}
+                        navigation={false}
+                        modules={[Pagination, Navigation]}
+                        className="custom-swiper"
+                    >
+                        {products.map((product) => (
+                            <SwiperSlide key={product.id}>
+                                <ProductCard product={product} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+
+                {/* Product Grid for Desktop */}
+                <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             </section>
 
-            <section className="my-12 flex flex-col justify-between gap-20 px-6">
+            <section className="my-4 md:my-12 flex flex-col justify-between gap-20 px-6">
                 <HomeFilter />
             </section>
 

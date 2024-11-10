@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./components/Nav-Bar";
-import { toast, Toaster } from 'sonner';
+import { Toaster } from 'sonner';
 import { MainFooter } from "./components/Main-Footer";
 
 function App() {
@@ -13,11 +13,11 @@ function App() {
             <main className="flex-grow">
                 <Outlet />
             </main>
-            <footer className="bg-mainTeal text-neutral-100 h-fit">
+            <footer className="bg-mainTeal/90 border border-mainTeal/25 h-fit">
                 <MainFooter />
-                <p className="text-center p-4 text-xs border-t border-neutral-200 container mx-auto">
+                <p className="text-center p-4 text-xs text-neutral-200 border-t border-neutral-200 container mx-auto">
                     &#169; 2024 Studios . All Rights Reserved . 
-                    <a href="https://medo7id.com" className="text-neutral-950 ml-1">Mohamed Idaghdour</a>
+                    <a href="https://medo7id.com" className="text-neutral-900 ml-1">Mohamed Idaghdour</a>
                 </p>
             </footer>
         </div>

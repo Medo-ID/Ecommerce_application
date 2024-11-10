@@ -6,12 +6,13 @@ import { toast } from "sonner";
 
 export const DeleteFromCart = ({ id, setRefreshWhenDelete }) => {
     const { isAuthenticated } = useAuth()
-    const { deleteItemFromCart } = useCart()
+    const { deleteItemFromCart, refreshCartCount } = useCart()
 
     const handleDelete = async () => {
         if (isAuthenticated) {
             const res = await deleteFromCart(id)
             if (res.success) {
+                refreshCartCount()
                 setRefreshWhenDelete(prev => !prev)
                 toast.success(res.message)
             } else {

@@ -47,7 +47,7 @@ function ProductDetail() {
     return(
         <div className="container mx-auto my-8 space-y-8 px-4 md:px-0">
             {/* The product detail */}
-            <section className="flex flex-col md:flex-row justify-evenly items-start gap-4 p-1 md:py-8 md:px-4 w-full h-fit bg-neutral-100/10 border border-neutral-400/50">
+            <section className="flex flex-col md:flex-row justify-evenly items-start gap-4 p-1 md:py-8 md:px-4 w-full h-fit bg-neutral-100/10 border">
                 <div className="bg-neutral-200/50 max-w-md">
                     <img
                         src={`/imgs/products/${product.image}`}
@@ -93,7 +93,7 @@ function ProductDetail() {
             </section>
             
             {/* Relaited products */}
-            <section className="flex flex-col justify-evenly items-start gap-4 p-1 md:py-4 md:px-4 w-full h-fit bg-neutral-100/10 border border-neutral-400/50">
+            <section className="flex flex-col justify-evenly items-start gap-4 p-1 md:py-4 md:px-4 w-full h-fit bg-neutral-100/10 border">
                 <h2 className="text-xl font-semibold">Related Products</h2>
                 <Suspense fallback={<Spinner />}>
                     <RelatedProducts category={product.category_name} />

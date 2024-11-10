@@ -11,7 +11,7 @@ export const fetchCartItems = async () => {
         const result = await response.json()
         
         if (response.ok) {
-            return { success: true, cart: result.data }
+            return { success: true, cart: result.data, itemsCount: result.itemCount }
         } else {
             return { success: false, error: result.message }
         }

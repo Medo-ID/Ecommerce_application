@@ -8,6 +8,9 @@ import {
 } from "react-router-dom";
 
 import './index.css';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import App from './App';
 
 import Home from "./views/Home";

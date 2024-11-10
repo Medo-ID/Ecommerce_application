@@ -17,29 +17,31 @@ export const MainFooter = () => {
                     <Twitter />
                 </div>
             </div>
-            <div className="space-y-2 text-sm">
-                <h3 className="font-semibold">Navigation</h3>
-                <ul className="space-y-1">
-                    <li className="hover:text-mainOrange"><Link to='/'>Home</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/products'>Products</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/signup'>Sign Up</Link></li>
-                </ul>
-            </div>
-            <div className="space-y-2 text-sm">
-                <h3 className="font-semibold">Features</h3>
-                <ul className="space-y-1">
-                    <li className="hover:text-mainOrange"><Link to='/cart'>Cart</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/login'>Login</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/privacy'>Privacy</Link></li>
-                </ul>
-            </div>
-            <div className="space-y-4 text-sm">
-                <h3 className="font-semibold">Categories</h3>
-                <ul className="space-y-1">
-                    <li className="hover:text-mainOrange"><Link to='/products?category=recliners'>Recliners</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/products?category=accent'>Accent</Link></li>
-                    <li className="hover:text-mainOrange"><Link to='/products?category=dining'>Dining</Link></li>
-                </ul>
+            <div className="flex items-start justify-between gap-10 md:gap-40 py-2">
+                <div className="space-y-2 text-sm">
+                    <h3 className="font-semibold">Navigation</h3>
+                    <ul className="space-y-1">
+                        <li className="hover:text-mainOrange"><Link to='/'>Home</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/products'>Products</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/signup'>Sign Up</Link></li>
+                    </ul>
+                </div>
+                <div className="space-y-2 text-sm">
+                    <h3 className="font-semibold">Features</h3>
+                    <ul className="space-y-1">
+                        <li className="hover:text-mainOrange"><Link to='/cart'>Cart</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/login'>Login</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/privacy'>Privacy</Link></li>
+                    </ul>
+                </div>
+                <div className="space-y-4 text-sm">
+                    <h3 className="font-semibold">Categories</h3>
+                    <ul className="space-y-1">
+                        <li className="hover:text-mainOrange"><Link to='/products?category=recliners'>Recliners</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/products?category=accent'>Accent</Link></li>
+                        <li className="hover:text-mainOrange"><Link to='/products?category=dining'>Dining</Link></li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

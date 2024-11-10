@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { clearCartInLocalStorage, deleteFromCart, getCartFromLocalStorage, saveCartToLocalStorage } from "../utils/cartStorage";
+import { fetchCartItems } from "../apis/cart";
 
 
 // Create Cart Context
@@ -8,6 +9,8 @@ const CartContext = createContext()
 // Cart Provider Component
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState(getCartFromLocalStorage)
+    const [itemsCount, setItemsCount] = useState(0);
+    const [refreshTrigger, setRefreshTrigger] = useState(false);
 
     // Update local storage whenever cartItems changes
     useEffect(() => {
@@ -58,8 +61,30 @@ export const CartProvider = ({ children }) => {
         clearCartInLocalStorage()
     }
 
+    const getItemsCount = async () => {
+        const res = await fetchCartItems();
+        if (res.success) {
+            setItemsCount(res.itemsCount);
+        } else {
+            setItemsCount
+        }
+    };
+
+    const refreshCartCount = () => setRefreshTrigger((prev) => !prev);
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, updateCart, clearCart, deleteItemFromCart }}>
+        <CartContext.Provider value={{ 
+                cartItems, 
+                addToCart, 
+                updateCart, 
+                clearCart, 
+                deleteItemFromCart, 
+                getItemsCount,
+                itemsCount, 
+                refreshCartCount,
+                refreshTrigger
+            }}
+        >
             {children}
         </CartContext.Provider>
     );

@@ -6,6 +6,7 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     // Function to check the auth status by calling the server
     const checkAuthStatus = async () => {
@@ -14,11 +15,12 @@ export const AuthProvider = ({ children }) => {
                 method: 'GET',
                 credentials: 'include' // include cookies in the request
             });
-            const data = await response.json();
-            setIsAuthenticated(data.isAuthenticated);
+            const data = await response.json()
+            setIsAuthenticated(data.isAuthenticated)
+            setLoading(false)
         } catch (error) {
-            console.error("Error checking auth status:", error);
-            setIsAuthenticated(false);
+            setIsAuthenticated(false)
+            setLoading(false)
         }
     };
 
@@ -27,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus }}>
+        <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus, loading }}>
             {children}
         </AuthContext.Provider>
     )

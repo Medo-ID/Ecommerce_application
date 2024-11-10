@@ -40,7 +40,7 @@ function Products() {
             {/* Filter Section - Stacked for mobile, sidebar for desktop */}
             <div className="relative space-y-6 md:space-y-0 md:grid md:grid-cols-12 gap-4">
                 {/* Filter */}
-                <div className="sticky top-0 left-0 md:col-span-3 space-y-3 md:space-y-4 w-full h-fit bg-neutral-200/50 border border-neutral-400/50 p-2 md:p-6 z-10">
+                <div className="sticky top-0 left-0 md:col-span-3 space-y-3 md:space-y-4 w-full h-fit bg-neutral-400/10 border border-neutral-400/50 p-2 md:p-6 z-10">
                     <h2 className="text-lg font-semibold">Filter By Category</h2>
 
                     {/* Slider for mobile view */}

@@ -26,7 +26,7 @@ export const UpdateCart = ({ id, quantity, setRefreshWhenUpdate }) => {
     return (
         <button
             onClick={handleUpdate}
-            className="px-4 py-2 text-sm text-white bg-mainTeal rounded-2xl hover:bg-mainOrange/70 transition-all delay-120"
+            className="px-4 py-2 text-xs font-medium text-white bg-mainTeal rounded-2xl hover:bg-mainOrange/70 transition-all delay-120"
         >
             
             Update

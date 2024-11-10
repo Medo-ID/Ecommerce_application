@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchOrderDetail } from "../apis/orders";
 import { Spinner } from "./Spinner";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
 function OrderList({ orders }) {
     console.log(orders)
@@ -28,29 +29,27 @@ function OrderList({ orders }) {
         }
     };
 
-    console.log(orderDetails)
-
     return (
         <div className="space-y-4">
             {orders.length === 0 ? (
-                <p>No orders found. <Link to="/products" className="text-mainTeal hover:underline">Browse our Products</Link></p>
+                <p>No orders Yet! <Link to="/products" className="text-mainTeal hover:underline">Browse our Products</Link></p>
             ) : (
                 orders.map((order) => (
                     <div
                         key={order.id}
-                        className="p-4 border border-gray-200 rounded-md shadow-sm"
+                        className="p-4 border border-gray-200 shadow-sm"
                     >
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <p className="font-semibold text-gray-800">Order ID: {order.id}</p>
-                                <p>Total Amount: ${order.total_amount}</p>
-                                <p>Status: {order.status}</p>
+                        <div className="flex justify-between items-center text-sm">
+                            <div className="space-y-1">
+                                <p><span className="font-medium">Order ID:</span> {order.id}</p>
+                                <p><span className="font-medium">Total Amount:</span> ${order.total_amount}</p>
+                                <p><span className="font-medium">Status:</span> {order.status}</p>
                             </div>
                             <button
                                 onClick={() => toggleOrderDetails(order.id)}
-                                className="text-mainTeal font-semibold hover:underline"
+                                className="bg-neutral-900/10 p-2 rounded-full text-mainTeal transition-all duration-200 border border-mainTeal/25 hover:text-mainOrange"
                             >
-                                {expandedOrder === order.id ? "Hide Details" : "View Details"}
+                                {expandedOrder === order.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                             </button>
                         </div>
 
@@ -60,7 +59,7 @@ function OrderList({ orders }) {
                                     <Spinner />
                                 ) : (
                                     orderDetails[order.id]?.map((item) => (
-                                        <div key={item.product_id} className="pl-4 border-l-2 border-mainOrange">
+                                        <div key={item.product_id} className="text-sm pl-4 border-l-2 border-mainOrange">
                                             <p>Product: {item.name}</p>
                                             <p>Quantity: {item.quantity}</p>
                                             <p>Unit Price: ${item.unit_price}</p>

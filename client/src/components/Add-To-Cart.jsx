@@ -6,12 +6,13 @@ import { toast } from "sonner";
 
 const CartButton = ({ product, quantity = 1, variant = "full", label = "Add To Cart" }) => {
     const { isAuthenticated } = useAuth()
-    const { addToCart } = useCart()
+    const { addToCart, refreshCartCount } = useCart()
 
     const handleAddToCart = async () => {
         if (isAuthenticated) {
             const res = await addItemToCart(product.id, quantity)
             if (res.success) {
+                refreshCartCount()
                 toast.success(res.message)
             } else {
                 toast.error("Something went wrong! Item can't be added.")
@@ -44,4 +45,3 @@ export const AddToCartButton = (props) => <CartButton {...props} variant="full" 
 
 // Compact Button with Plus Icon
 export const CompactAddToCartButton = (props) => <CartButton {...props} variant="compact" />
-

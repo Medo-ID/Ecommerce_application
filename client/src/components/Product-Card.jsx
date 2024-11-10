@@ -8,7 +8,7 @@ export const ProductCard = ({product}) => {
     const roundedRating = Math.round(rating * 2) / 2;
     
     return (
-        <div className="flex flex-col justify-between border border-neutral-400/25 hover:shadow-md hover:scale-105 transition-all delay-100">
+        <div className="flex flex-col justify-between border border-neutral-400/25 hover:shadow-md hover:scale-105 transition-all delay-100 mb-12 md:mb-0">
             <Link to={`/products/${id}`} key={id}>
                 {/* Product Image */}
                 <div className="bg-neutral-200/50 w-full h-fit">

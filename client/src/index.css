@@ -14,3 +14,36 @@ body {
     font-family: "Poppins", sans-serif;
     background-color: #FAF7F0;
 }
+
+/* Target the custom Swiper container class */
+.custom-swiper .swiper-pagination-bullet {
+    background-color: #FF6D00; /* Replace with your mainOrange color */
+    opacity: 0.7; /* Ensures bullets are fully visible */
+}
+
+/* Active bullet color */
+.custom-swiper .swiper-pagination-bullet-active {
+    background-color: #FF6D00; /* Same color for active state, or choose a darker shade */
+    transform: scale(1.2);
+    opacity: 1; /* Optional: Slightly enlarge the active bullet */
+}
+
+/* Move pagination down */
+.custom-swiper .swiper-pagination {
+    margin-top: 15px; /* Adjust this value as needed */
+}
+
+/* Slow Rotate Gradient Animation */
+@keyframes rotateGradient {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.overflow-hidden {
+    position: relative;
+}
+
+.animate-rotateGradient-slow {
+    animation: rotateGradient 30s linear infinite; /* Slowed down to 30 seconds */
+}
