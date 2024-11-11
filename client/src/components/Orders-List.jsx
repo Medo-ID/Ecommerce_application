@@ -5,7 +5,6 @@ import { Spinner } from "./Spinner";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 function OrderList({ orders }) {
-    console.log(orders)
     const [expandedOrder, setExpandedOrder] = useState(null);
     const [orderDetails, setOrderDetails] = useState({});
     const [loading, setLoading] = useState(false);

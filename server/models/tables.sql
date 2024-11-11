@@ -41,6 +41,7 @@ CREATE TABLE Products (
     category_id INT REFERENCES Categories(id) ON DELETE SET NULL,
     stock INT NOT NULL CHECK (stock >= 0),
     price NUMERIC(10, 2) NOT NULL,
+    stripe_price_id VARCHAR(255) NOT NULL,
     rating FLOAT CHECK (rating >= 0 AND rating <= 5),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -30,7 +30,7 @@ export const Navbar = () => {
     };
 
     return (
-        <nav className="container mx-auto flex md:justify-between items-center py-4 px-4 relative">
+        <nav className="container mx-auto flex justify-between items-center py-4 px-2 relative">
             <div className="flex gap-4 md:gap-12 items-center">
                 <h1 className="font-bold text-mainOrange text-lg md:py-1">
                     <span className="text-neutral-900">S</span>tudios.
@@ -45,7 +45,7 @@ export const Navbar = () => {
                 </ul>
             </div>
             <div className="flex gap-4 md:gap-12 justify-end items-center text-xs md:text-sm w-full">
-                <ul className="flex md:space-x-4">
+                <ul className="flex space-x-1 md:space-x-4">
                     {isAuthenticated && 
                         <Link to="/account">
                             <User
@@ -65,7 +65,7 @@ export const Navbar = () => {
                 {!isAuthenticated && (
                     <button
                         onClick={() => setShowMobileMenu(!showMobileMenu)}
-                        className="md:hidden text-mainOrange bg-neutral-900/10 p-2 rounded-full border border-mainOrange/25 transition-all duration-200"
+                        className="md:hidden ml-4 text-mainOrange bg-neutral-900/10 p-2 rounded-full border border-mainOrange/25 transition-all duration-200"
                     >
                         <Menu size={18} />
                     </button>

@@ -7,6 +7,10 @@ import { Strategy as GitHubStrategy } from 'passport-github2';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pool } from "./models/index.js"
+import stripeLib from 'stripe';
+
+const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
+const YOUR_DOMAIN = 'http://localhost:3001' // Frontend domain
 
 // Controllers
 import { isAuthenticated } from './controllers/auth.js';
@@ -88,10 +92,48 @@ passport.use(new GitHubStrategy({
 app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 app.get('/auth/github/callback', 
-    passport.authenticate('github', { failureRedirect: '/login' }),(req, res) => {
+    passport.authenticate('github', { failureRedirect: 'http://localhost:3001/login' }), (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('http://localhost:3001/?status=success')
 });
+
+// Stripe endpoint
+app.post('/create-checkout-session', async (req, res) => {
+    try {
+        const { cartItems } = req.body
+    
+        // Fetch product details, including stripe_price_id, from the database
+        const productsQuery = `
+            SELECT id, stripe_price_id 
+            FROM products 
+            WHERE id = ANY($1)
+        `
+        const { rows: products } = await pool.query(productsQuery, [cartItems.map(item => item.id)])
+    
+        // Create line items for Stripe Checkout
+        const lineItems = cartItems.map((item) => {
+            const product = products.find((p) => p.id === item.id);
+            return {
+                price: product.stripe_price_id, // Use the price_id from the database
+                quantity: item.quantity,
+            };
+        });
+    
+        const session = await stripe.checkout.sessions.create({
+            line_items: lineItems,
+            mode: 'payment',
+            success_url: `${YOUR_DOMAIN}?success=true`,
+            cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+        });
+      
+        // Respond with the session URL for the client to redirect
+        res.json({ url: session.url })
+
+    } catch (error) {
+        console.error('Error creating checkout session:', error)
+        res.status(500).json({ error: 'Failed to create checkout session' })
+    }
+  });
 
 // APIs endpoint
 app.use('/api/auth', authRouter);

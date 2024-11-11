@@ -33,7 +33,8 @@ function Cart() {
         <div className="container mx-auto space-y-8 my-8 md:py-4 px-4">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Your Cart</h2>
-                <Checkout />
+                {/* Checkout */}
+                <Checkout checkoutItems={items} />
             </div>
             <div className="w-full h-fit bg-mainTeal/5 border border-mainTeal/25 p-4 md:p-6 space-y-2">
                 {items.length === 0 ? (

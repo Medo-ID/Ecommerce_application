@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Spinner } from "./Spinner";
 import { clearCartInLocalStorage, getCartFromLocalStorage } from "../utils/cartStorage";
 import { saveCartToDatabase } from "../apis/cart";
+import { GitHubButton } from "./Github-Button";
 
 export const LoginForm= () => {
     const navigate = useNavigate()
@@ -55,43 +56,58 @@ export const LoginForm= () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto md:p-4 space-y-6">
-            {/* Email */}
-            <div className="flex flex-col gap-1">
-                <label htmlFor="email" className="text-sm font-medium text-gray-700 ml-1">Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    required
-                    value={credentials.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                    className="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mainOrange transition-all duration-200"
-                />
+        <>
+            {/* Login Form */}
+            <form onSubmit={handleSubmit} className="max-w-lg mx-auto md:p-4 space-y-6">
+                {/* Email */}
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="email" className="text-sm font-medium text-gray-700 ml-1">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        required
+                        value={credentials.email}
+                        onChange={handleChange}
+                        placeholder="Enter your email"
+                        className="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mainOrange transition-all duration-120"
+                        />
+                </div>
+
+                {/* Password */}
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="password" className="text-sm font-medium text-gray-700 ml-1">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        value={credentials.password}
+                        onChange={handleChange}
+                        placeholder="Enter your password"
+                        className="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mainOrange transition-all duration-120"
+                        />
+                </div>
+                {error &&  <p className="text-xs text-red-600 font-light">{error}</p>}
+
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full py-3 mt-4 bg-neutral-900 text-white font-semibold rounded-md hover:bg-mainOrange/90 transition-all duration-120"
+                    >
+                    {isLoading ? <Spinner /> : "Log in"}
+                </button>
+            </form>
+        
+            {/* Separator */}
+            <div className="flex items-center my-6">
+                <div className="flex-grow h-px bg-gray-300"></div>
+                <span className="px-3 text-sm text-gray-500 font-medium">Or</span>
+                <div className="flex-grow h-px bg-gray-300"></div>
             </div>
 
-            {/* Password */}
-            <div className="flex flex-col gap-1">
-                <label htmlFor="password" className="text-sm font-medium text-gray-700 ml-1">Password</label>
-                <input
-                    type="password"
-                    name="password"
-                    required
-                    value={credentials.password}
-                    onChange={handleChange}
-                    placeholder="Enter your password"
-                    className="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-mainOrange transition-all duration-200"
-                />
+            {/* Auth 2.0 */}
+            <div className='max-w-lg mx-auto md:px-4'>
+                <GitHubButton />
             </div>
-            {error &&  <p className="text-xs text-red-600 font-light">{error}</p>}
-
-            <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-3 mt-4 bg-neutral-900 text-white font-semibold rounded-md hover:bg-mainOrange/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainOrange transition-all duration-200"
-            >
-                {isLoading ? <Spinner /> : "Log in"}
-            </button>
-        </form>
+        </>
     );
 };

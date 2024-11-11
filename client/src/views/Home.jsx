@@ -36,14 +36,14 @@ function Home() {
         <div className="container mx-auto flex flex-col justify-evenly gap-24">
             
             {/* Hero section */}
-            <section className="relative my-4 flex flex-col md:flex-row justify-between items-center gap-20 px-4 overflow-hidden">
+            <section className="relative my-4 flex flex-col justify-center md:flex-row md:justify-between items-center md:gap-20 px-4 py-4 overflow-hidden">
 
                 {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-mainOrange/40 via-mainTeal/40 to-mainOrange/40 blur-3xl opacity-80 animate-rotateGradient-slow"></div>
 
-                <div className="relative z-10 flex flex-col justify-evenly items-start gap-8 max-w-2xl md:mx-10">
+                <div className="relative z-10 flex flex-col justify-center md:justify-evenly items-start gap-6 max-w-2xl md:mx-10">
                     <p className="text-neutral-600 text-sm md:text-base drop-shadow-lg">TRENDY COLLECTION 🔥</p>
-                    <h1 className="text-4xl md:text-6xl font-semibold text-900 drop-shadow-2xl leading-tight">
+                    <h1 className="text-4xl lg:text-6xl font-semibold text-900 drop-shadow-2xl leading-tight">
                         Make Your 
                         <span className="text-mainOrange drop-shadow-2xl"> Interior </span> 
                         Unique & Modern 
@@ -54,7 +54,7 @@ function Home() {
                     </p>
                     <Link 
                         to="products"
-                        className="mt-4 bg-mainOrange hover:bg-mainTeal/80 text-white rounded-2xl py-3 px-8 shadow-custom-orange hover:shadow-custom-teal transition-all duration-300"
+                        className="mt-4 bg-mainOrange hover:bg-mainTeal/80 text-white rounded-2xl py-3 px-8 shadow-custom-orange hover:shadow-custom-teal transition-all duration-300 ease-in-out"
                     >
                         Discover Now
                     </Link>

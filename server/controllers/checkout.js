@@ -75,11 +75,11 @@ export const checkout = async (req, res) => {
         
         // Commit the transaction if successful
         await client.query('COMMIT')
-        res.status(200).json({ message: 'Checkout successful' })
+        res.status(200).json({ message: 'Order placed!' })
     } catch (error) {
         // Rollback the transaction in case of an error
         await client.query('ROLLBACK')
-        res.status(500).json({ message: 'Error during checkout', error })
+        res.status(500).json({ message: 'Error placing order', error })
     } finally {
         // Release the client back to the pool
         client.release()
