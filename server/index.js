@@ -10,7 +10,7 @@ import { pool } from "./models/index.js"
 import stripeLib from 'stripe';
 
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
-const YOUR_DOMAIN = 'http://localhost:3001' // Frontend domain
+const FRONT_DOMAIN = 'http://localhost:3001' // Frontend domain
 
 // Controllers
 import { isAuthenticated } from './controllers/auth.js';
@@ -52,7 +52,7 @@ app.use(
 
 // Config app
 app.use(cors({
-    origin: 'http://localhost:3001', // front-end origin
+    origin: FRONT_DOMAIN, // front-end origin
     credentials: true // Allow cookies to be sent across domains
 }));
 app.use(passport.initialize());
@@ -92,9 +92,9 @@ passport.use(new GitHubStrategy({
 app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 app.get('/auth/github/callback', 
-    passport.authenticate('github', { failureRedirect: 'http://localhost:3001/login' }), (req, res) => {
+    passport.authenticate('github', { failureRedirect: `${FRONT_DOMAIN}/login` }), (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3001/?status=success')
+    res.redirect(`${FRONT_DOMAIN}/?status=success`)
 });
 
 // Stripe endpoint
@@ -122,8 +122,8 @@ app.post('/create-checkout-session', async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${YOUR_DOMAIN}?success=true`,
-            cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+            success_url: `${FRONT_DOMAIN}/order-success?success=true`,
+            cancel_url: `${FRONT_DOMAIN}?canceled=true`,
         });
       
         // Respond with the session URL for the client to redirect
@@ -133,7 +133,7 @@ app.post('/create-checkout-session', async (req, res) => {
         console.error('Error creating checkout session:', error)
         res.status(500).json({ error: 'Failed to create checkout session' })
     }
-  });
+});
 
 // APIs endpoint
 app.use('/api/auth', authRouter);

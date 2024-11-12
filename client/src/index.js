@@ -25,6 +25,7 @@ import { ProtectedRoute } from "./components/Protected-Route";
 import { RedirectUser } from "./components/Redirect-User";
 import { AuthProvider } from "./hooks/authContext";
 import { CartProvider } from "./hooks/cartContext";
+import OrderPlacer from "./views/OrderPlacer";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -57,6 +58,7 @@ const router = createBrowserRouter(
                 } 
             />
             <Route path="cart" element={<Cart />} />
+            <Route path="order-success" element={<OrderPlacer />} />
         </Route>
     )
 );

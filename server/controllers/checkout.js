@@ -72,6 +72,13 @@ export const checkout = async (req, res) => {
             VALUES ($1, $2, 'pending', 'credit_card')
         `
         await client.query(checkoutQuery, [orderId, totalAmount])
+
+        // Empty the cart after checkout is successful
+        const emptyCartQuery = `
+            DELETE FROM cart
+            WHERE user_id = $1
+        `;
+        await client.query(emptyCartQuery, [user_id])
         
         // Commit the transaction if successful
         await client.query('COMMIT')

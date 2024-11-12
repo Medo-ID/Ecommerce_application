@@ -18,18 +18,13 @@ export const Checkout = ({ checkoutItems }) => {
         }
 
         if (isAuthenticated) {
-            const orderRes = await placeOrder()
-            if (orderRes.success) {
-                toast.success(orderRes.message)
-            } else {
-                toast.error(orderRes.message)
-                return; // Exit if placing order fails
-            }
+            await placeOrder()
+            return
+        } else {
+            // Final success message only after placing order is successful
+            toast.success('Order placed! You will receive an email confirmation.')
+            clearCartInLocalStorage()
         }
-
-        // Final success message only after placing order is successful
-        toast.success('Order placed! You will receive an email confirmation.')
-        clearCartInLocalStorage()
     };
 
     return (
