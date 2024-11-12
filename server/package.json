@@ -3,9 +3,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "clean": "rmdir /s /q dist",
-        "build": "npm run clean && mkdir dist && xcopy /e /i /h . dist\\",
-        "start": "node dist/index.js"
+        "start": "node index.js"
     },
     "dependencies": {
         "connect-pg-simple": "^10.0.0",
