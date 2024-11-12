@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Github } from "lucide-react";
 import { Spinner } from "./Spinner";
 
 export const GitHubButton = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const { REACT_APP_ENV, REACT_APP_PROD_URL, REACT_APP_DEV_URL } = process.env;
+    const url = REACT_APP_ENV === 'production' ? REACT_APP_PROD_URL : REACT_APP_DEV_URL;
 
     // Redirects to GitHub authentication
     const handleSubmit = () => {
         try {
             setIsLoading(true)
-            window.location.href = 'http://localhost:3000/auth/github'
+            window.location.href = `${url}/auth/github`
         } finally {
             setIsLoading(false)
         }
