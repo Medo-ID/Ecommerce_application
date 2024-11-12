@@ -3,10 +3,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "nodemon index.js",
-        "clean": "rm -rf dist",
-        "build": "npm run clean && mkdir -p dist && cp -r . dist/",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "nodemon index.js"
     },
     "dependencies": {
         "connect-pg-simple": "^10.0.0",
