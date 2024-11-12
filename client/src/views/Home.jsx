@@ -78,7 +78,7 @@ function Home() {
                         <p className="text-sm text-neutral-500 max-w-xs">
                             Chairs designed for relaxation with reclining functionality.
                         </p>
-                        <Link to="/" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
+                        <Link to="products" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
                             Shop Now
                         </Link>
                     </div>
@@ -98,7 +98,7 @@ function Home() {
                         <p className="text-sm text-neutral-500 max-w-xs">
                             Chairs meant to add style and character to any room.
                         </p>
-                        <Link to="/" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
+                        <Link to="products" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
                             Shop Now
                         </Link>
                     </div>
@@ -118,7 +118,7 @@ function Home() {
                         <p className="text-sm text-neutral-500 max-w-xs">
                             Comfortable chairs for dining rooms, available in various styles.
                         </p>
-                        <Link to="/" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
+                        <Link to="products" className="text-mainOrange hover:text-mainTeal text-sm font-semibold">
                             Shop Now
                         </Link>
                     </div>
