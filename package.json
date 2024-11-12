@@ -10,8 +10,8 @@
 		"start:server": "cd server && npm run start",
 		"start:client": "cd client && npm run start",
 		"build": "concurrently \"npm run build:server\" \"npm run build:client\"",
-    	"build:server": "cd server && npm run build",
-    	"build:client": "cd client && npm run build",
+		"build:server": "cd server && npm run build",
+		"build:client": "cd client && npm run build",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -21,6 +21,6 @@
 	"author": "Med <midaghdour@gmail.com> (https://www.medo7id.com/)",
 	"license": "MIT",
 	"dependencies": {
-		"concurrently": "^9.0.1"
+		"concurrently": "^9.1.0"
 	}
 }
