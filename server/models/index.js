@@ -2,13 +2,12 @@ import dotenv from 'dotenv';
 import pg from 'pg';
 
 dotenv.config();
+const { NODE_ENV, DB_URL_PROD, DB_URL_DEV } = process.env;
 
 const { Pool } = pg;
 
+const connectionString = NODE_ENV === 'production' ? DB_URL_PROD : DB_URL_DEV;
+ 
 export const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT || 5432
+  connectionString,
 });
