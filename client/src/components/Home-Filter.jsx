@@ -2,18 +2,21 @@
 import { useEffect, useState } from "react";
 import { FilterCard } from "./Filter-Card";
 import { fetchProductsByCategoty } from "../apis/products";
+import { Spinner } from "./Spinner";
 
-export const HomeFilter = () => {
+export const HomeFilter = ({ loadingFilter, setLoadingFilter }) => {
     const [category, setCategory] = useState("all");
     const [products, setProducts] = useState([]);
 
     const handleCategory = async (category) => {
+        setLoadingFilter(true)
         const res = await fetchProductsByCategoty(category)
         if (res.success) {
             setProducts(res.products)
         } else {
             console.error(res.error)
         }
+        setLoadingFilter(false)
     };
 
     useEffect(() => {
@@ -53,11 +56,13 @@ export const HomeFilter = () => {
                         className="w-full h-full object-cover"
                     />
                 </div>
-
+                
                 {/* Product Cards */}
-                {products.map(product => (
-                    <FilterCard key={product.id} product={product} />
-                ))}
+                {loadingFilter ? <Spinner /> : 
+                    products.map(product => (
+                        <FilterCard key={product.id} product={product} />
+                    ))
+                }
             </div>
         </div>
     );

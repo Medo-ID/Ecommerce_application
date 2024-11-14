@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import { ProductCard } from "../components/Product-Card";
 import ProductsFilter from "../components/Products-Filter";
 import { fetchAllProducts } from "../apis/products";
+import { ProductCardSkeleton } from "../components/Card-Loading-Skeleton";
 
 function Products() {
     const [allProducts, setAllProducts] = useState([])
     const [category, setCategory] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const getAllProducts = async () => {
+        setLoading(true)
         const res = await fetchAllProducts()
         if (res.success) {
             setAllProducts(res.products)
         } else {
             console.error(res.error)
         }
+        setLoading(false)
     };
 
     useEffect(() => {
@@ -64,11 +68,19 @@ function Products() {
 
                 {/* Products Grid */}
                 <div className="col-span-9 w-full h-fit md:p-4 bg-neutral-200/20 border border-neutral-400/50">
+                {loading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[...Array(8)].map((_, index) => (
+                            <ProductCardSkeleton key={index} />
+                        ))}
+                    </div>
+                ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {filteredProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
                     </div>
+                )}
                 </div>
             </div>
         </div>

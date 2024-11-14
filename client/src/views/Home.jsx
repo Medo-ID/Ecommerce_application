@@ -6,18 +6,23 @@ import { fetchTrendingProducts } from "../apis/products";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import { toast } from "sonner";
+import { ProductCardSkeleton } from "../components/Card-Loading-Skeleton";
 
 
 function Home() {
     const [products, setProducts] = useState([])
+    const [loadingTrending, setLoadingTrending] = useState(true)
+    const [loadingFilter, setLoadingFilter] = useState(false)
 
     const fetchTrending = async () => {
+        setLoadingTrending(true)
         const res = await fetchTrendingProducts()
         if (res.success) {
             setProducts(res.products)
         } else {
             console.error(res.error)
         }
+        setLoadingTrending(false)
     }
 
     useEffect(() => {
@@ -144,34 +149,48 @@ function Home() {
                     </p>
                 </div>
 
-                {/* Product Carousel for Mobile */}
-                <div className="w-full md:hidden">
-                    <Swiper
-                        spaceBetween={20}
-                        slidesPerView={1.5}
-                        pagination={{ clickable: true }}
-                        navigation={false}
-                        modules={[Pagination, Navigation]}
-                        className="custom-swiper"
-                    >
-                        {products.map((product) => (
-                            <SwiperSlide key={product.id}>
-                                <ProductCard product={product} />
-                            </SwiperSlide>
+                {/* Display skeleton loader while loading trending products */}
+                {loadingTrending ? (
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[...Array(4)].map((_, index) => (
+                            <ProductCardSkeleton key={index} />
                         ))}
-                    </Swiper>
-                </div>
+                    </div>
+                ) : (
+                    <>
+                        {/* Product Carousel for Mobile */}
+                        <div className="w-full md:hidden">
+                            <Swiper
+                                spaceBetween={20}
+                                slidesPerView={1.5}
+                                pagination={{ clickable: true }}
+                                navigation={false}
+                                modules={[Pagination, Navigation]}
+                                className="custom-swiper"
+                            >
+                                {products.map((product) => (
+                                    <SwiperSlide key={product.id}>
+                                        <ProductCard product={product} />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
 
-                {/* Product Grid for Desktop */}
-                <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                        {/* Product Grid for Desktop */}
+                        <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {products.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    </>
+                )}
             </section>
 
             <section className="my-4 md:my-12 flex flex-col justify-between gap-20 px-6">
-                <HomeFilter />
+                <HomeFilter 
+                    loadingFilter={loadingFilter} 
+                    setLoadingFilter={setLoadingFilter} 
+                />
             </section>
 
         </div>
