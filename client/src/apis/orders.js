@@ -1,5 +1,4 @@
-const { REACT_APP_ENV, REACT_APP_PROD_URL, REACT_APP_DEV_URL } = process.env;
-const url = REACT_APP_ENV === 'production' ? REACT_APP_PROD_URL : REACT_APP_DEV_URL;
+const url = process.env.REACT_APP_ENV === 'production' ? process.env.REACT_APP_PROD_URL : process.env.REACT_APP_DEV_URL;
 
 export const fetchOrders = async () => {
     try {
