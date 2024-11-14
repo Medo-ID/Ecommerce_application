@@ -61,12 +61,6 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Main route for testing purposes
-app.get('/', (req, res, next) => {
-    console.log(req.isAuthenticated());
-    res.status(200).json({ authStatus: req.isAuthenticated() });   
-});
-
 // GitHub Authentication 2.0 Strategy
 // Config GitHubStrategy
 passport.use(new GitHubStrategy({
