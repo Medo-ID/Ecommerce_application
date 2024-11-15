@@ -1,4 +1,4 @@
-const url = process.env.REACT_APP_ENV === 'production' ? process.env.REACT_APP_PROD_URL : process.env.REACT_APP_DEV_URL;
+const url = 'https://ecommerce-application-server.onrender.com';
 
 export const fetchAllProducts = async () => {
     try {
