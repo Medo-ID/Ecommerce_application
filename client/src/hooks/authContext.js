@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const url = process.env.REACT_APP_ENV === 'production' ? process.env.REACT_APP_PROD_URL : process.env.REACT_APP_DEV_URL;
 
+console.log(url)
+
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {

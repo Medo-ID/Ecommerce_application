@@ -29,8 +29,6 @@ const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
 const FRONT_DOMAIN = 'https://ecommerce-application-client.onrender.com'
 
-console.log(URL)
-
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
 
