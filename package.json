@@ -7,7 +7,7 @@
 	],
 	"scripts": {
 		"start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-		"start:server": "cd server && npm run dev",
+		"start:server": "cd server && npm run start",
 		"start:client": "cd client && npm run start",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

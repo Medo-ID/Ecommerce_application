@@ -1,4 +1,4 @@
-const url = 'https://ecommerce-application-server.onrender.com';
+const url = process.env.REACT_APP_ENV === 'production' ? process.env.REACT_APP_PROD_URL : process.env.REACT_APP_DEV_URL;
 
 export const fetchAllProducts = async () => {
     try {
@@ -8,6 +8,8 @@ export const fetchAllProducts = async () => {
         });
 
         const data = await response.json()
+
+        console.log('test fetching all products:', data)
         
         if (response.ok) {
             return { success: true, products: data.data }
@@ -48,6 +50,8 @@ export const fetchTrendingProducts = async () => {
         });
 
         const data = await response.json()
+        
+        console.log('test fetching trend products:', data)
         
         if (response.ok) {
             return { success: true, products: data.data }

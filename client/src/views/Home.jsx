@@ -37,6 +37,8 @@ function Home() {
         fetchTrending()
     }, [])
 
+    console.log('test all products in home page:', products)
+
     return (
         <div className="container mx-auto flex flex-col justify-evenly gap-24">
             
