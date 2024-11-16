@@ -9,8 +9,6 @@ export const fetchAllProducts = async () => {
 
         const data = await response.json()
 
-        console.log('test fetching all products:', data)
-        
         if (response.ok) {
             return { success: true, products: data.data }
         } else {
@@ -50,8 +48,6 @@ export const fetchTrendingProducts = async () => {
         });
 
         const data = await response.json()
-        
-        console.log('test fetching trend products:', data)
         
         if (response.ok) {
             return { success: true, products: data.data }

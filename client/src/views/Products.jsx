@@ -32,8 +32,6 @@ function Products() {
         setCategory("")
     };
 
-    console.log('test all products in products page: ', allProducts)
-
     // Filter products based on selected category
     const filteredProducts = category
         ? allProducts.filter((product) => product.category_name === category)
