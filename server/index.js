@@ -28,6 +28,7 @@ const PORT = process.env.PORT || 5000;
 const URL = process.env.ENV === 'production' ? process.env.PROD_URL : process.env.DEV_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
 const FRONT_DOMAIN = process.env.ENV === 'production' ? process.env.FRONT_DOMAIN_PROD : process.env.FRONT_DOMAIN_DEV
+console.log(FRONT_DOMAIN)
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
@@ -60,6 +61,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', FRONT_DOMAIN);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
+});
 
 // GitHub Authentication 2.0 Strategy
 // Config GitHubStrategy
