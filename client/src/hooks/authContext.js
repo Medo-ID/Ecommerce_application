@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
                 credentials: 'include' // include cookies in the request
             });
             const data = await response.json()
+            console.log(data.isAuthenticated)
             setIsAuthenticated(data.isAuthenticated)
             setLoading(false)
         } catch (error) {
