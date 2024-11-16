@@ -29,6 +29,7 @@ const URL = process.env.ENV === 'production' ? process.env.PROD_URL : process.en
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
 const FRONT_DOMAIN = 'https://ecommerce-application-client.onrender.com'
 console.log(FRONT_DOMAIN)
+console.log(URL)
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
