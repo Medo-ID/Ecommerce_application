@@ -25,10 +25,10 @@ import { orderRouter } from './routes/order.route.js';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const URL = process.env.ENV === 'production' ? process.env.PROD_URL : process.env.DEV_URL
+const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
 const FRONT_DOMAIN = 'https://ecommerce-application-client.onrender.com'
-console.log(FRONT_DOMAIN)
+
 console.log(URL)
 
 // Store sessions in PostgreSQL
