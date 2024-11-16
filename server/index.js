@@ -27,7 +27,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URL = process.env.ENV === 'production' ? process.env.PROD_URL : process.env.DEV_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
-const FRONT_DOMAIN = process.env.ENV === 'production' ? 'https://ecommerce-application-client.onrender.com' : 'http://localhost:3001' // Frontend domain
+const FRONT_DOMAIN = 'https://ecommerce-application-client.onrender.com'
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
