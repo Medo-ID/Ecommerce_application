@@ -27,7 +27,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
-const FRONT_DOMAIN = 'https://ecommerce-application-client.onrender.com'
+const FRONT_DOMAIN = process.env.FRONT_DOMAIN
 
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
@@ -82,6 +82,11 @@ passport.use(new GitHubStrategy({
         done(error);
     }
 }));
+
+// testing user api + user authentication
+app.get('/', (req, res, next) => {
+    res.status(200).json({ authentication: req.isAuthenticated() })
+})
 
 // GitHub endpoints
 app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));

@@ -87,19 +87,17 @@ Follow these steps to clone the repository and install dependencies for both the
     # server port
     PORT=<this one for developement you can use 3000>
 
-    # database
-    DB_USER=<database username>
-    DB_NAME=<database name>
-    DB_PASSWORD=<database password>
-    DB_HOST=<database host || for dev use localhost>
-    DB_PORT=<database port || 5432>
+    # database url
+    DB_URL=<your postgresql url for database connection>
 
     # express session
     SESSION_SECRET=<strong secret for session>
 
+    # front end url
+    FRONT_DOMAIN=<font end url || http://localhost:3001>
+
     # envirement
-    DEV_URL=<url for dev backend || http://localhost:3000>
-    PROD_URL=<url fot hosted backend>
+    SERVER_URL=<url for dev backend || http://localhost:3000>
     NODE_ENV=<developement>
 
     # github auth 2.0 api keys
@@ -116,8 +114,7 @@ Follow these steps to clone the repository and install dependencies for both the
    - Create a `.env` file in the `client` folder with the following variables 
     ```env
     PORT=3001
-    REACT_APP_DEV_URL=<http://localhost:3000>
-    REACT_APP_PROD_URL=<url fot hosted backend>
+    REACT_APP_API_URL=<our back end url api || http://localhost:3000>
     REACT_APP_ENV=<development>
     ```
 
