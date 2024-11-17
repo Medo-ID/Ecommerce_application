@@ -52,13 +52,19 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            httpOnly: true,
             secure: true, // Use HTTPS in production
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-            sameSite: 'none', // 'none' for cross-origin
         },        
     })
 );
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
+    res.setHeader("Access-Control-Allow-Origin", FRONT_DOMAIN)
+    res.setHeader("Access-Control-Allow-Credentials", true)
+    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
+    next();
+})
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -86,12 +92,6 @@ passport.use(new GitHubStrategy({
         done(error);
     }
 }));
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', FRONT_DOMAIN);
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
 
 // testing user api + user authentication
 app.get('/', (req, res) => {
