@@ -1,6 +1,7 @@
 {
   "name": "client",
   "main": "index.js",
+  "proxy": "https://ecommerce-application-client-flame.vercel.app",
   "dependencies": {
     "lucide-react": "^0.454.0",
     "react": "^18.3.1",

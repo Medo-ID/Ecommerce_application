@@ -27,7 +27,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
-const FRONT_DOMAIN = process.env.FRONT_DOMAIN
+const FRONT_DOMAIN = 'https://ecommerce-application-client-flame.vercel.app'
 
 
 // Config app
@@ -36,8 +36,6 @@ app.use(cors({
     credentials: true // Allow cookies to be sent across domains
 }));
 
-console.log(FRONT_DOMAIN)
-console.log(cors())
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
 
@@ -59,10 +57,9 @@ app.use(
 );
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
-    res.setHeader("Access-Control-Allow-Origin", FRONT_DOMAIN)
-    res.setHeader("Access-Control-Allow-Credentials", true)
-    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
+    res.setHeader('Access-Control-Allow-Origin', 'https://ecommerce-application-client-flame.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 })
 
