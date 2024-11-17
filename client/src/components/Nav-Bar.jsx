@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { User, LogOut, Menu, X } from "lucide-react";
+import { User, LogOut, Menu, X, Armchair } from "lucide-react";
 import { useAuth } from "../hooks/authContext";
 import { logoutUser } from "../apis/auth";
 import CartIcon from "./Cart-Icon";
@@ -32,9 +32,12 @@ export const Navbar = () => {
     return (
         <nav className="container mx-auto flex justify-between items-center py-4 px-2 relative">
             <div className="flex gap-4 md:gap-12 items-center">
-                <h1 className="font-bold text-mainOrange text-lg md:py-1">
-                    <span className="text-neutral-900">S</span>tudios.
-                </h1>
+                <div className="flex justify-center items-center gap-2">
+                    <Armchair />
+                    <h1 className="font-bold text-mainOrange text-lg md:py-1">
+                        <span className="text-neutral-900">S</span>tudios.
+                    </h1>
+                </div>
                 <ul className="flex space-x-2 text-xs md:space-x-6 md:text-sm">
                     <Link to="/" className={pathname === '/' ? activeLink : notActiveLink}>
                         Home
