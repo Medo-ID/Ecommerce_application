@@ -50,9 +50,9 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+            secure: true, // Use HTTPS in production
+            sameSite: 'none', // 'none' for cross-origin
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-origin
         },        
     })
 );
