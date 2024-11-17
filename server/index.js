@@ -87,6 +87,12 @@ passport.use(new GitHubStrategy({
     }
 }));
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', FRONT_DOMAIN);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 // testing user api + user authentication
 app.get('/', (req, res) => {
     const authorization = req.isAuthenticated() ? "Authenticated" : "Not Authenticated"

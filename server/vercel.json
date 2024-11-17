@@ -8,5 +8,14 @@
             "src": "/(.*)",
             "dest": "/"
         }
-    ]
+    ],
+    "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://ecommerce-application-client-flame.vercel.app" },
+        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+      ]
+    }
+  ]
 }
