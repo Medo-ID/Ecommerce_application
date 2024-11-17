@@ -29,6 +29,12 @@ const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
 const FRONT_DOMAIN = process.env.FRONT_DOMAIN
 
+// Config app
+app.use(cors({
+    origin: FRONT_DOMAIN, // front-end origin
+    credentials: true // Allow cookies to be sent across domains
+}));
+
 // Store sessions in PostgreSQL
 const pgSession = connectPgSimple(session);
 
@@ -44,18 +50,13 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-            sameSite: 'lax',
-        },
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-origin
+        },        
     })
 );
 
-// Config app
-app.use(cors({
-    origin: FRONT_DOMAIN, // front-end origin
-    credentials: true // Allow cookies to be sent across domains
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
