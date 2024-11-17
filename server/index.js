@@ -27,13 +27,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const URL = process.env.PROD_URL
 const stripe = stripeLib(process.env.STRIPE_SECRET) // Initialize Stripe with your secret key
-const FRONT_DOMAIN = 'https://ecommerce-application-client-flame.vercel.app'
+const FRONT_DOMAIN = process.env.FRONT_DOMAIN
 
 
 // Config app
 app.use(cors({
     origin: FRONT_DOMAIN, // front-end origin
-    credentials: true // Allow cookies to be sent across domains
+    credentials: true // Allow cookies to be sent across origin
 }));
 
 // Store sessions in PostgreSQL
@@ -50,14 +50,16 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
+            httpOnly: true,
             secure: true, // Use HTTPS in production
             maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+            sameSite: 'none'
         },        
     })
 );
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://ecommerce-application-client-flame.vercel.app');
+    res.setHeader('Access-Control-Allow-Origin', FRONT_DOMAIN);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
