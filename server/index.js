@@ -85,8 +85,9 @@ passport.use(new GitHubStrategy({
 }));
 
 // testing user api + user authentication
-app.get('/', (req, res, next) => {
-    res.status(200).json({ authentication: req.isAuthenticated() })
+app.get('/', (req, res) => {
+    const authorization = req.isAuthenticated() ? "Authenticated" : "Not Authenticated"
+    res.status(200).json({ authentication:  `Hello, you are ${authorization}`})
 })
 
 // GitHub endpoints
