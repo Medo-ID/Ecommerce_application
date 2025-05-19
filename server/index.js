@@ -8,6 +8,8 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { pool } from "./models/index.js";
 import stripeLib from "stripe";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // Controllers
 import { isAuthenticated } from "./controllers/auth.js";
@@ -26,6 +28,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const stripe = stripeLib(process.env.STRIPE_SECRET); // Initialize Stripe with your secret key
 const FRONT_DOMAIN = process.env.FRONT_DOMAIN;
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
+  app.get("*", (req, res) => {
+    return res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
+}
 
 // Dynamically set the origin based on the environment
 const corsOptions = {

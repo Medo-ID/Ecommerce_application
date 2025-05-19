@@ -95,7 +95,7 @@ Follow these steps to clone the repository and install dependencies for both the
 
    ```env
    # server port
-   PORT=<this one for developement you can use 3000>
+   PORT=<this one for development you can use 3000>
 
    # database url
    DB_URL=<your postgresql url for database connection>
@@ -108,7 +108,7 @@ Follow these steps to clone the repository and install dependencies for both the
 
    # envirement
    SERVER_URL=<url for dev backend || http://localhost:3000>
-   NODE_ENV=<developement>
+   NODE_ENV=<development>
 
    # github auth 2.0 api keys
    GITHUB_CLIENT=<github client>
