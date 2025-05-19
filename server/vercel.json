@@ -1,20 +1,31 @@
 {
-    "version": 2,
-    "builds": [
-        { "src": "*.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/"
-        }
-    ],
-    "headers": [
+  "version": 2,
+  "rewrites": [
     {
-      "source": "/(.*)",
+      "builds": [
+        {
+          "src": "index.js",
+          "use": "@vercel/node",
+          "config": { "includeFiles": ["dist/**"] }
+        }
+      ],
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "index.js"
+        }
+      ],
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://ecommerce-application-client-flame.vercel.app" },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+        {
+          "source": "/(.*)",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "https://ecommerce-application-client-flame.vercel.app"
+            },
+            { "key": "Access-Control-Allow-Credentials", "value": "true" }
+          ]
+        }
       ]
     }
   ]
