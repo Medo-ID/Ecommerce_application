@@ -1,23 +1,23 @@
 {
-	"name": "fullstack_ecommerce",
-	"version": "1.0.0",
-	"workspaces": [
-		"client",
-		"server"
-	],
-	"scripts": {
-		"start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-		"start:server": "cd server && npm run dev",
-		"start:client": "cd client && npm run start",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Medo-ID/Ecommerce_REST_API.git"
-	},
-	"author": "Med <midaghdour@gmail.com> (https://www.medo7id.com/)",
-	"license": "MIT",
-	"dependencies": {
-		"concurrently": "^9.1.0"
-	}
+  "name": "fullstack_ecommerce",
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "cd server && npm run dev",
+    "start:client": "cd client && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Medo-ID/Ecommerce_application.git"
+  },
+  "author": "Med <midaghdour@gmail.com> (https://www.medo7id.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^9.1.0"
+  }
 }

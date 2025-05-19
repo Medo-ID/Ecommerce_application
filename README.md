@@ -20,14 +20,14 @@ A monorepo for a full-stack Ecommerce application featuring a client side built 
 This project follows a monorepo architecture with the following structure:
 
 ```bash
-Ecommerce_application 
-    ├── client 
+Ecommerce_application
+    ├── client
     │ └── public
     │ └── src
-    ├── server 
-    │ ├── controllers 
-    │ ├── models 
-    │ │ └── tables.sql 
+    ├── server
+    │ ├── controllers
+    │ ├── models
+    │ │ └── tables.sql
     │ └── routes
     │ └── index.js
     └── package.json
@@ -39,7 +39,7 @@ Ecommerce_application
 - **Backend**: Express.js (Node.js)
 - **Database**: PostgreSQL
 - **Monorepo Architecture**: Shared repository structure for client and server code
-  
+
 ## Features
 
 - **Filter Products by Category**: Users can browse products and filter them by category for a better shopping experience.
@@ -53,85 +53,91 @@ Ecommerce_application
 Follow these steps to clone the repository and install dependencies for both the client and server:
 
 1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/Medo-ID/Ecommerce_application.git
-    cd Ecommerce_application
-    ```
+
+   ```bash
+   git clone https://github.com/Medo-ID/Ecommerce_application.git
+   cd Ecommerce_application
+   ```
 
 2. **Install Dependencies**:
+
    - For monorepo we use workspaces, you can run in the root directory
-    ```bash
-    npm install
-    ```
-    **This will install dependencies for all packages defined in the workspace configuration.**
+
+   ```bash
+   npm install
+   ```
+
+   **This will install dependencies for all packages defined in the workspace configuration.**
 
    - If you want to install new scopes and private packages in Workspaces you can run:
-    ```bash
-    npm install @scope/package-example --workspace "name of workspace client || server"
-    ```
+
+   ```bash
+   npm install @scope/package-example --workspace "name of workspace client || server"
+   ```
 
 ## Setup and Configuration
 
 1. **Database Setup**:
+
    - Make sure you have PostgreSQL installed.
    - Create a new PostgreSQL database for the application.
    - Run the `tables.sql` script located in `server/models` to set up the necessary tables:
-    ```sql
-    \i path/to/tables.sql
-    ```
+
+   ```sql
+   \i path/to/tables.sql
+   ```
+
    - Update your database credentials and configuration in the server code as required.
 
 2. **Environment Variables**:
+
    - Create a `.env` file in the `server` folder with the following variables:
-    ```env
-    # server port
-    PORT=<this one for developement you can use 3000>
 
-    # database url
-    DB_URL=<your postgresql url for database connection>
+   ```env
+   # server port
+   PORT=<this one for developement you can use 3000>
 
-    # express session
-    SESSION_SECRET=<strong secret for session>
+   # database url
+   DB_URL=<your postgresql url for database connection>
 
-    # front end url
-    FRONT_DOMAIN=<font end url || http://localhost:3001>
+   # express session
+   SESSION_SECRET=<strong secret for session>
 
-    # envirement
-    SERVER_URL=<url for dev backend || http://localhost:3000>
-    NODE_ENV=<developement>
+   # front end url
+   FRONT_DOMAIN=<font end url || http://localhost:3001>
 
-    # github auth 2.0 api keys
-    GITHUB_CLIENT=<github client>
-    GITHUB_SECRET=<github secret>
+   # envirement
+   SERVER_URL=<url for dev backend || http://localhost:3000>
+   NODE_ENV=<developement>
 
-    # stripe payment api keys
-    STRIPE_PUBLIC=<stripe public key>
-    STRIPE_SECRET=<stripe secret key>
-    ```
+   # github auth 2.0 api keys
+   GITHUB_CLIENT=<github client>
+   GITHUB_SECRET=<github secret>
+
+   # stripe payment api keys
+   STRIPE_PUBLIC=<stripe public key>
+   STRIPE_SECRET=<stripe secret key>
+   ```
 
 3. **Frontend Configuration**:
    - Ensure any necessary API URLs are configured in the client side code under `client/src`.
-   - Create a `.env` file in the `client` folder with the following variables 
-    ```env
-    PORT=3001
-    REACT_APP_API_URL=<our back end url api || http://localhost:3000>
-    REACT_APP_ENV=<development>
-    ```
+   - Create a `.env` file in the `client` folder with the following variables
+   ```env
+   PORT=3001
+   REACT_APP_API_URL=<our back end url api || http://localhost:3000>
+   REACT_APP_ENV=<development>
+   ```
 
 ## Running the Application
 
 - **Start the App**:
-  * **To start both the client and server concurrently, use the following command in the root directory:**
+  - **To start both the client and server concurrently, use the following command in the root directory:**
     ```bash
-    npm start
-    ```
-    Or
-    ```bash
-    npm dev
+    npm run start
     ```
     This command will run both the client and server:
-    * Server: Runs on `http://localhost:3000` (as specified in `server/.env`)
-    * Client: Runs on `http://localhost:3001` (as specified in `client/.env`)
+    - Server: Runs on `http://localhost:3000` (as specified in `server/.env`)
+    - Client: Runs on `http://localhost:3001` (as specified in `client/.env`)
 
 ## Project Structure Details
 
