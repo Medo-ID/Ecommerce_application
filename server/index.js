@@ -33,13 +33,7 @@ const FRONT_DOMAIN = process.env.FRONT_DOMAIN;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-
-  app.get("*", (req, res) => {
-    return res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  });
-}
+// We'll move the static file serving and catch-all route to after API routes
 
 // Dynamically set the origin based on the environment
 const corsOptions = {
@@ -181,8 +175,19 @@ app.use((err, req, res, next) => {
     return next(err);
   }
   console.error(err.stack);
-  res.status(500).send("Something went wrong. We’re working on fixing it.");
+  res.status(500).send("Something went wrong. We're working on fixing it.");
 });
+
+// Only after all API routes, serve static files and handle client routes in production
+if (process.env.NODE_ENV === "production") {
+  // Serve static files from React build
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
+  // For any other routes, send the index.html file
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
+}
 
 // Listening to app
 app.listen(PORT, () => {
