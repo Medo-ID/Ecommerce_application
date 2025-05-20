@@ -16,6 +16,10 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch(`${url}/api/auth/status`, {
         method: "GET",
         credentials: "include", // include cookies in the request
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
       console.log(data.isAuthenticated);
